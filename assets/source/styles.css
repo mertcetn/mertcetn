@@ -88,8 +88,8 @@ body {
 }
 
 .pixel-tile {
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
     position: relative;
     cursor: pointer;
     image-rendering: pixelated;
