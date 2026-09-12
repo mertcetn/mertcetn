@@ -186,14 +186,14 @@ async function generateCard() {
   console.log(`Calculated XP Level: LEVEL ${xpInfo.level} (Progress: ${xpInfo.progressInThisLevel}/${xpInfo.neededInThisLevel} commits - ${xpInfo.progressPercent}%)`);
 
   const xpLevelRegex = /(<div class="text-\[#80ff00\][^>]*pixel-text-shadow">).*?(<\/div>)/;
-  html = html.replace(xpLevelRegex, `$1LEVEL ${xpInfo.level}$2`);
+  html = html.replace(xpLevelRegex, `$1${xpInfo.level}$2`);
 
   const xpFillRegex = /(clip-path:\s*inset\(0\s+)[0-9.]+(%\s+0\s+0\);)/;
   const clipRight = Math.max(0, Math.min(100, 100 - xpInfo.progressPercent)).toFixed(1);
   html = html.replace(xpFillRegex, `$1${clipRight}$2`);
 
-  const xpTextRegex = /TOTAL\s*COMMITS:\s*--\/--/;
-  html = html.replace(xpTextRegex, `TOTAL COMMITS: ${data.totalAllTime} / ${xpInfo.commitsForNextLevel}`);
+  const xpTextRegex = /--\/--/;
+  html = html.replace(xpTextRegex, `${data.totalAllTime} / ${xpInfo.commitsForNextLevel}`);
 
   // Save preview HTML
   const previewHtmlPath = path.join(__dirname, '../assets/source/card_preview.html');
