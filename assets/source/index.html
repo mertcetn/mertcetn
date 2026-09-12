@@ -15,7 +15,7 @@
 <body class="p-6 md:p-10 flex flex-col items-center justify-center">
 
     <!-- Main HUD / Window -->
-    <main class="w-full max-w-5xl">
+    <main class="w-full max-w-5xl" id="card-capture">
 
         <!-- Top Bar: Minecraft Profile & Level Banner
         <header class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
@@ -54,7 +54,7 @@
         </header> -->
 
         <!-- The Primary Minecraft GUI Window (Contribution Graph) -->
-        <section class="mc-panel p-6 text-[#e2e8f0] mb-8">
+        <section class="mc-panel p-6 text-[#e2e8f0] mb-8" id="card-crafting-log">
 
             <!-- Panel Header / Title -->
             <div class="flex flex-wrap items-center justify-between border-b-4 border-[#38383e] pb-4 mb-5">
@@ -94,7 +94,8 @@
                 </div>
 
                 <!-- 52 x 7 Pixel Grid (Static) -->
-                <div class="grid grid-rows-7 grid-flow-col gap-[3px]">
+                <div class="grid grid-rows-7 grid-flow-col gap-[3px]" id="contribution-grid">
+                    <!-- GRID_TILES_START -->
                     <div class="pixel-tile tile-lvl-3"></div>
                     <div class="pixel-tile tile-lvl-0"></div>
                     <div class="pixel-tile tile-lvl-0"></div>
@@ -459,6 +460,7 @@
                     <div class="pixel-tile tile-lvl-1"></div>
                     <div class="pixel-tile tile-lvl-0"></div>
                     <div class="pixel-tile tile-lvl-0"></div>
+                    <!-- GRID_TILES_END -->
                 </div>
             </div>
 
@@ -494,7 +496,7 @@
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
 
-            <div class="mc-panel p-4 bg-[#232327]">
+            <div class="mc-panel p-4 bg-[#232327]" id="card-total-commits">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 mc-slot bg-[#141417] flex items-center justify-center shrink-0">
                         <div class="enchanted-item-wrap">
@@ -510,7 +512,7 @@
                 </div>
             </div>
 
-            <div class="mc-panel p-4 bg-[#232327]">
+            <div class="mc-panel p-4 bg-[#232327]" id="card-max-streak">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 mc-slot bg-[#141417] flex items-center justify-center shrink-0">
                         <img src="images/diamond.png" class="w-6 h-6 object-contain select-none"
@@ -568,7 +570,7 @@
 
         <!-- Experience Bar -->
         <div class="w-full flex flex-col items-center justify-center">
-            <div class="w-96 flex flex-col items-center">
+            <div class="w-96 flex flex-col items-center" id="card-xp-bar">
                 <div class="text-[#80ff00] text-xs font-bold mb-1 pixel-text-shadow">LEVEL 64</div>
                 <div class="w-full h-5 exp-bar-frame relative p-[1px]">
                     <div class="h-full bg-gradient-to-r from-[#22c55e] via-[#4ade80] to-[#86efac] w-[78%]"></div>

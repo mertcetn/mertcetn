@@ -1,0 +1,5 @@
+node_modules/
+.env
+temp/
+assets/source/card_preview.html
+*.log
