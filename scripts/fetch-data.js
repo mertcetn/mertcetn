@@ -1,4 +1,6 @@
 require('dotenv').config();
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first');
 
 const GH_TOKEN = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
 const USERNAME = process.env.GH_USERNAME || 'mertcetn';
@@ -9,22 +11,33 @@ if (!GH_TOKEN) {
   process.exit(1);
 }
 
-async function queryGraphQL(query) {
-  const res = await fetch('https://api.github.com/graphql', {
-    method: 'POST',
-    headers: {
-      'Authorization': `bearer ${GH_TOKEN}`,
-      'User-Agent': 'Minecraft-Contributions-Bot',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ query })
-  });
+async function queryGraphQL(query, retries = 3) {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const res = await fetch('https://api.github.com/graphql', {
+        method: 'POST',
+        headers: {
+          'Authorization': `bearer ${GH_TOKEN}`,
+          'User-Agent': 'Minecraft-Contributions-Bot',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ query })
+      });
 
-  const json = await res.json();
-  if (json.errors) {
-    throw new Error(json.errors.map(e => e.message).join(', '));
+      const json = await res.json();
+      if (json.errors) {
+        throw new Error(json.errors.map(e => e.message).join(', '));
+      }
+      return json.data;
+    } catch (err) {
+      if (attempt < retries) {
+        console.warn(`Fetch attempt ${attempt} failed (${err.message}). Retrying in 1.5s...`);
+        await new Promise(r => setTimeout(r, 1500));
+      } else {
+        throw err;
+      }
+    }
   }
-  return json.data;
 }
 
 async function fetchYearContributions(year) {
