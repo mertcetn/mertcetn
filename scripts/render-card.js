@@ -148,6 +148,27 @@ async function generateCard() {
     `<!-- GRID_TILES_START -->\n${tileElements.join('\n')}\n                    <!-- GRID_TILES_END -->`
   );
 
+  // 2b. Dynamic Month Labels for the rolling 52 weeks
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthSpans = [];
+  let prevMonth = -1;
+  for (const week of weeks) {
+    if (week.contributionDays && week.contributionDays.length > 0) {
+      const d = new Date(week.contributionDays[0].date + 'T00:00:00Z');
+      const m = d.getUTCMonth();
+      if (m !== prevMonth) {
+        monthSpans.push(`<span>${monthNames[m]}</span>`);
+        prevMonth = m;
+      }
+    }
+  }
+
+  const monthRegex = /<!-- MONTH_LABELS_START -->[\s\S]*?<!-- MONTH_LABELS_END -->/;
+  html = html.replace(
+    monthRegex,
+    `<!-- MONTH_LABELS_START -->\n                ${monthSpans.join('')}\n                <!-- MONTH_LABELS_END -->`
+  );
+
   // 3. Current Streak
   const currentStreakRegex = /(CURRENT STREAK:\s*<strong class="text-\[#55ffff\]">).*?(<\/strong>)/;
   html = html.replace(currentStreakRegex, `$1${data.currentStreak} ${data.currentStreak === 1 ? 'DAY' : 'DAYS'}$2`);

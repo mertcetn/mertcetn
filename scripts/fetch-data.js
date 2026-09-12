@@ -65,11 +65,33 @@ async function fetchYearContributions(year) {
   return data?.user?.contributionsCollection?.contributionCalendar;
 }
 
+async function fetchRollingYearContributions() {
+  const query = `query {
+    user(login: "${USERNAME}") {
+      contributionsCollection {
+        contributionCalendar {
+          totalContributions
+          weeks {
+            contributionDays {
+              date
+              contributionCount
+              contributionLevel
+              weekday
+            }
+          }
+        }
+      }
+    }
+  }`;
+
+  const data = await queryGraphQL(query);
+  return data?.user?.contributionsCollection?.contributionCalendar;
+}
+
 async function fetchUserData() {
   const currentYear = new Date().getFullYear();
   let totalAllTime = 0;
   let allDays = [];
-  let recentCalendar = null;
 
   console.log(`Fetching contribution data for @${USERNAME} from ${START_YEAR} to ${currentYear}...`);
 
@@ -91,11 +113,13 @@ async function fetchUserData() {
         }
       }
     }
-
-    if (year === currentYear) {
-      recentCalendar = cal;
-    }
   }
+
+  // Fetch rolling 1-year calendar for the contribution graph (from 1 year ago today up to today)
+  console.log('Fetching rolling 1-year contribution calendar (past 365 days up to today)...');
+  const rollingCalendar = await fetchRollingYearContributions();
+  const gridWeeks = (rollingCalendar?.weeks || []).slice(-52);
+  const lastYearContributions = rollingCalendar?.totalContributions || 0;
 
   // Remove duplicate dates if any, and sort chronologically
   const dayMap = new Map();
@@ -155,12 +179,6 @@ async function fetchUserData() {
     }
   }
 
-  // Last 52 weeks (364 days) for the grid
-  // We need exactly 52 columns x 7 rows
-  const recentWeeks = recentCalendar?.weeks || [];
-  // Grab the last 52 weeks
-  const gridWeeks = recentWeeks.slice(-52);
-
   // Find peak day count in the grid to highlight with diamond
   let maxCountInGrid = 0;
   for (const week of gridWeeks) {
@@ -170,9 +188,6 @@ async function fetchUserData() {
       }
     }
   }
-
-  // Total contributions in last 365 days
-  const lastYearContributions = recentCalendar?.totalContributions || 0;
 
   return {
     username: USERNAME,
