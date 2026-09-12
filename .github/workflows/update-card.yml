@@ -45,12 +45,16 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Create orphan output branch (clean history)
+          # 1. Back up generated assets to temp directory outside git
+          mkdir -p /tmp/minecraft-assets
+          cp assets/*.gif assets/*.png /tmp/minecraft-assets/
+
+          # 2. Create orphan output branch (clean history)
           git checkout --orphan output
           git rm -rf .
           
-          # Move generated assets to root of output branch
-          cp assets/*.gif assets/*.png . 2>/dev/null || true
+          # 3. Restore generated assets into output branch root
+          cp /tmp/minecraft-assets/* .
           git add *.gif *.png
           
           if git diff --staged --quiet; then
