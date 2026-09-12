@@ -164,7 +164,7 @@ async function generateCard() {
   const xpInfo = calculateMinecraftCurveLevel(data.totalAllTime);
   console.log(`Calculated XP Level: LEVEL ${xpInfo.level} (Progress: ${xpInfo.progressInThisLevel}/${xpInfo.neededInThisLevel} commits - ${xpInfo.progressPercent}%)`);
 
-  const xpLevelRegex = /(<div class="text-\[#80ff00\] text-xs font-bold mb-1 pixel-text-shadow">).*?(<\/div>)/;
+  const xpLevelRegex = /(<div class="text-\[#80ff00\][^>]*pixel-text-shadow">).*?(<\/div>)/;
   html = html.replace(xpLevelRegex, `$1LEVEL ${xpInfo.level}$2`);
 
   const xpFillRegex = /(<div class="h-full bg-gradient-to-r from-\[#22c55e\] via-\[#4ade80\] to-\[#86efac\]\s*w-\[).*?(\]">)/;
