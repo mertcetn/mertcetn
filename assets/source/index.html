@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Contribution Grid - CraftHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="p-6 md:p-10 flex flex-col items-center justify-center">
+
+    <!-- Main HUD / Window -->
+    <main class="w-full max-w-5xl">
+
+        <!-- Top Bar: Minecraft Profile & Level Banner
+        <header class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+            <div class="flex items-center gap-4">
+               Steve / Miner Avatar in Beveled Frame 
+                <div class="mc-slot p-1.5 flex items-center justify-center shadow-inner">
+                    <svg class="w-14 h-14 rounded-none" viewBox="0 0 16 16" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <rect width="16" height="16" fill="#181310" />
+                        <rect x="2" y="2" width="12" height="4" fill="#362215" />
+                        <rect x="2" y="6" width="2" height="4" fill="#362215" />
+                        <rect x="12" y="6" width="2" height="4" fill="#362215" />
+                        <rect x="4" y="6" width="8" height="7" fill="#b88358" />
+                        <rect x="4" y="8" width="2" height="1" fill="#ffffff" />
+                        <rect x="6" y="8" width="1" height="1" fill="#2d3d99" />
+                        <rect x="10" y="8" width="2" height="1" fill="#ffffff" />
+                        <rect x="9" y="8" width="1" height="1" fill="#2d3d99" />
+                        <rect x="7" y="9" width="2" height="2" fill="#9e663e" />
+                        <rect x="6" y="11" width="4" height="1" fill="#4d2c16" />
+                    </svg>
+                </div>
+
+                <div>
+                    <div class="flex items-center gap-3">
+                        <h1 class="text-xl md:text-2xl text-[#ffff55] pixel-text-shadow tracking-wider">Steve_Developer
+                        </h1>
+                        <span
+                            class="bg-[#240a5e] border border-[#a855f7] text-[#55ffff] text-[10px] px-2 py-1 shadow">LVL
+                            64 ARCHITECT</span>
+                    </div>
+                    <p class="text-xs text-[#aaaaaa] mt-1 font-mono tracking-tight">World: <span
+                            class="text-[#55ff55]">Overworld/master</span> &bull; Game Mode: <span
+                            class="text-[#ffaa00]">Survival Coding</span></p>
+                </div>
+            </div>
+        </header> -->
+
+        <!-- The Primary Minecraft GUI Window (Contribution Graph) -->
+        <section class="mc-panel p-6 text-[#e2e8f0] mb-8">
+
+            <!-- Panel Header / Title -->
+            <div class="flex flex-wrap items-center justify-between border-b-4 border-[#38383e] pb-4 mb-5">
+                <div>
+                    <h2
+                        class="text-base md:text-lg font-bold text-[#ffffff] pixel-text-shadow tracking-tight flex items-center gap-2">
+                        <div class="mc-block-3d-wrap">
+                            <div class="mc-block-3d">
+                                <div class="face top"></div>
+                                <div class="face front"></div>
+                                <div class="face side"></div>
+                            </div>
+                        </div>
+                        <span>CRAFTING LOG</span>
+                    </h2>
+                    <p class="text-[11px] text-[#9ca3af] mt-1 font-sans font-semibold">1,428 blocks forged in the last
+                        365 in-game days</p>
+                </div>
+            </div>
+
+            <!-- Month Labels -->
+            <div
+                class="hidden md:grid grid-flow-col auto-cols-fr pl-8 pr-2 text-[10px] font-bold text-[#9ca3af] mb-2 text-left">
+                <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span>
+                <span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
+            </div>
+
+            <!-- Graph Container -->
+            <div class="mc-slot p-3 overflow-x-auto bg-[#18181b] flex gap-3">
+                <!-- Weekday Labels -->
+                <div
+                    class="flex flex-col justify-between text-[9px] font-bold text-[#777777] py-1 select-none pr-1 border-r border-[#333338]">
+                    <span class="h-[15px] leading-[15px]">Mon</span>
+                    <span class="h-[15px] leading-[15px]">Wed</span>
+                    <span class="h-[15px] leading-[15px]">Fri</span>
+                    <span class="h-[15px] leading-[15px]">Sun</span>
+                </div>
+
+                <!-- 52 x 7 Pixel Grid (Static) -->
+                <div class="grid grid-rows-7 grid-flow-col gap-[3px]">
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-diamond"></div>
+                    <div class="pixel-tile tile-lvl-4"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-3"></div>
+                    <div class="pixel-tile tile-lvl-2"></div>
+                    <div class="pixel-tile tile-lvl-1"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                    <div class="pixel-tile tile-lvl-0"></div>
+                </div>
+            </div>
+
+            <!-- Footer: Legend & Streak -->
+            <div
+                class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-5 pt-4 border-t-2 border-[#38383e] text-xs">
+
+                <!-- Legend -->
+                <div class="flex items-center gap-2 text-[10px] font-bold text-[#cbd5e1]">
+                    <span>Stone</span>
+                    <div class="flex items-center gap-1.5 px-2 py-1 bg-[#141417] rounded-none border border-[#38383e]">
+                        <span class="pixel-tile tile-lvl-0 inline-block"></span>
+                        <span class="pixel-tile tile-lvl-1 inline-block"></span>
+                        <span class="pixel-tile tile-lvl-2 inline-block"></span>
+                        <span class="pixel-tile tile-lvl-3 inline-block"></span>
+                        <span class="pixel-tile tile-lvl-4 inline-block"></span>
+                        <span class="pixel-tile tile-diamond inline-block"></span>
+                    </div>
+                    <span>Diamond</span>
+                </div>
+
+                <!-- Streak Badge -->
+                <div
+                    class="flex items-center gap-1.5 bg-[#18181b] px-3 py-1.5 border-2 border-[#38383e] shadow-inner text-[10px] font-bold text-[#e2e8f0]">
+                    <span class="mc-soul-fire"></span>
+                    <span>CURRENT STREAK: <strong class="text-[#55ffff]">28 DAYS</strong></span>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+
+            <div class="mc-panel p-4 bg-[#232327]">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 mc-slot bg-[#141417] flex items-center justify-center shrink-0">
+                        <div class="enchanted-item-wrap">
+                            <img src="images/netherite_pickaxe.png" class="enchanted-item-base" alt="Netherite Pickaxe">
+                            <div class="enchanted-item-glint"></div>
+                        </div>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="text-[8px] sm:text-[9px] text-[#9ca3af] font-bold tracking-tight">TOTAL COMMITS
+                        </div>
+                        <div class="text-xs sm:text-sm text-[#ffffff] font-extrabold mt-1">1,428</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mc-panel p-4 bg-[#232327]">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 mc-slot bg-[#141417] flex items-center justify-center shrink-0">
+                        <img src="images/diamond.png" class="w-6 h-6 object-contain select-none"
+                            style="image-rendering: pixelated; filter: drop-shadow(0 0 4px rgba(77, 227, 227, 0.5));"
+                            alt="Diamond">
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="text-[8px] sm:text-[9px] text-[#9ca3af] font-bold tracking-tight">MAX STREAK
+                        </div>
+                        <div class="text-xs sm:text-sm text-[#55ffff] font-extrabold mt-1">64 DAYS</div>
+                    </div>
+                </div>
+            </div>
+
+            <!--
+            <div class="mc-panel p-4 bg-[#232327] flex flex-col justify-between">
+                <div>
+                    <div class="flex items-start gap-3 mb-2">
+                        <div class="w-9 h-9 mc-slot bg-[#141417] flex items-center justify-center shrink-0">
+                            <span class="text-sm select-none"
+                                style="line-height: 1; display: flex; align-items: center; justify-content: center; font-family: 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;">&#x2728;</span>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <div class="text-[8px] sm:text-[9px] text-[#9ca3af] font-bold tracking-tight">DIAMOND DROPS
+                            </div>
+                            <div class="text-xs sm:text-sm text-[#fbbf24] font-extrabold mt-1 whitespace-nowrap">18
+                                RELEASES</div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-[9px] text-[#9ca3af] leading-relaxed font-sans font-bold mt-1">Major version deploys
+                    straight to production.</p>
+            </div>
+
+            <div class="mc-panel p-4 bg-[#232327] flex flex-col justify-between">
+                <div>
+                    <div class="flex items-start gap-3 mb-2">
+                        <div class="w-9 h-9 mc-slot bg-[#141417] flex items-center justify-center shrink-0">
+                            <span class="text-sm select-none"
+                                style="line-height: 1; display: flex; align-items: center; justify-content: center; font-family: 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;">&#x1F4D6;</span>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <div class="text-[8px] sm:text-[9px] text-[#9ca3af] font-bold tracking-tight">EFFICIENCY
+                            </div>
+                            <div class="text-xs sm:text-sm text-[#818cf8] font-extrabold mt-1">LEVEL V</div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-[9px] text-[#9ca3af] leading-relaxed font-sans font-bold mt-1">Top 1% active builders
+                    across the servers.</p>
+            </div>
+            -->
+
+        </div>
+
+        <!-- Experience Bar -->
+        <div class="w-full flex flex-col items-center justify-center">
+            <div class="w-96 flex flex-col items-center">
+                <div class="text-[#80ff00] text-xs font-bold mb-1 pixel-text-shadow">LEVEL 64</div>
+                <div class="w-full h-5 exp-bar-frame relative p-[1px]">
+                    <div class="h-full bg-gradient-to-r from-[#22c55e] via-[#4ade80] to-[#86efac] w-[78%]"></div>
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <span
+                            style="font-family:'Press Start 2P',monospace; font-size:7px; color:#14532d; text-shadow:none; white-space:nowrap;">TOTAL
+                            COMMITS: --/--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+
+</html>

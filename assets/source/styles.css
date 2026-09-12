@@ -1,0 +1,308 @@
+:root {
+    --mc-dirt-dark: #4a2f1b;
+    --mc-stone: #686868;
+    --mc-stone-light: #8b8b8b;
+    --mc-stone-dark: #373737;
+    --mc-gui-bg: #232327;
+    --mc-gui-dark: #121214;
+    --mc-gui-light: #3a3a42;
+    --mc-gui-border-outer: #000000;
+
+    /* Level Colors (Minecraft Diamond Gradient) */
+    --mc-lvl-0: #232529;
+    --mc-lvl-1: #163b45;
+    --mc-lvl-2: #1d5c6f;
+    --mc-lvl-3: #25859e;
+    --mc-lvl-4: #35b5cc;
+
+    /* Special block accents */
+    --mc-diamond: #4de3e3;
+    --mc-diamond-glow: #55ffff;
+}
+
+* {
+    image-rendering: pixelated;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Press Start 2P', monospace;
+    background-color: #121214;
+    background-image:
+        radial-gradient(rgba(0, 0, 0, 0.7) 30%, rgba(0, 0, 0, 0.95) 90%),
+        repeating-linear-gradient(0deg, #18191c, #18191c 32px, #141517 32px, #141517 64px),
+        repeating-linear-gradient(90deg, #18191c, #18191c 32px, #141517 32px, #141517 64px);
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+.mc-button {
+    position: relative;
+    background: #38383e;
+    border-top: 3px solid #54545e;
+    border-left: 3px solid #54545e;
+    border-right: 3px solid #1a1a1e;
+    border-bottom: 3px solid #1a1a1e;
+    box-shadow: inset -2px -2px 0px 0px #121214, inset 2px 2px 0px 0px #60606a;
+    text-shadow: 2px 2px 0px #111111;
+    color: #e2e8f0;
+    transition: all 0.05s ease-in-out;
+}
+
+.mc-button:hover {
+    background: #4a4a54;
+    border-top: 3px solid #6c6c7a;
+    border-left: 3px solid #6c6c7a;
+    border-right: 3px solid #222228;
+    border-bottom: 3px solid #222228;
+    color: #ffffa0;
+    text-shadow: 2px 2px 0px #18181c;
+}
+
+.mc-button:active {
+    border-top: 3px solid #222228;
+    border-left: 3px solid #222228;
+    border-right: 3px solid #6c6c7a;
+    border-bottom: 3px solid #6c6c7a;
+    box-shadow: inset 2px 2px 0px 0px #141418;
+}
+
+.mc-panel {
+    background: #232327;
+    border-top: 4px solid #4a4a52;
+    border-left: 4px solid #4a4a52;
+    border-right: 4px solid #111114;
+    border-bottom: 4px solid #111114;
+    outline: 4px solid #000000;
+    box-shadow: 0 12px 0 rgba(0, 0, 0, 0.6), inset -2px -2px 0 0 #141418, inset 2px 2px 0 0 #36363d;
+}
+
+.mc-slot {
+    background: #141417;
+    border-top: 3px solid #0c0c0e;
+    border-left: 3px solid #0c0c0e;
+    border-right: 3px solid #33333b;
+    border-bottom: 3px solid #33333b;
+    box-shadow: inset 1px 1px 0px rgba(0, 0, 0, 0.6);
+}
+
+.pixel-tile {
+    width: 15px;
+    height: 15px;
+    position: relative;
+    cursor: pointer;
+    image-rendering: pixelated;
+    transition: transform 0.08s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.pixel-tile:hover {
+    transform: scale(1.35);
+    z-index: 30;
+    outline: 2px solid #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+}
+
+.tile-lvl-0 {
+    background: #232529;
+    border-top: 1px solid #32353a;
+    border-left: 1px solid #32353a;
+    border-right: 1px solid #141517;
+    border-bottom: 1px solid #141517;
+}
+
+.tile-lvl-1 {
+    background: #163b45;
+    border-top: 1px solid #235866;
+    border-left: 1px solid #235866;
+    border-right: 1px solid #0c2126;
+    border-bottom: 1px solid #0c2126;
+    box-shadow: inset 1px 1px 0 #1c4955;
+}
+
+.tile-lvl-2 {
+    background: #1d5c6f;
+    border-top: 1px solid #2d809a;
+    border-left: 1px solid #2d809a;
+    border-right: 1px solid #113844;
+    border-bottom: 1px solid #113844;
+    box-shadow: inset 1px 1px 0 #246e85;
+}
+
+.tile-lvl-3 {
+    background: #25859e;
+    border-top: 1px solid #3cb8da;
+    border-left: 1px solid #3cb8da;
+    border-right: 1px solid #165566;
+    border-bottom: 1px solid #165566;
+    box-shadow: inset 1px 1px 0 #2fa3c2;
+}
+
+.tile-lvl-4 {
+    background: #35b5cc;
+    border-top: 1px solid #6fe7fa;
+    border-left: 1px solid #6fe7fa;
+    border-right: 1px solid #207687;
+    border-bottom: 1px solid #207687;
+    box-shadow: 0 0 4px #26b9db, inset 1px 1px 0 #54dcf5;
+}
+
+.tile-diamond {
+    background: #4de3e3;
+    border-top: 1px solid #a8ffff;
+    border-left: 1px solid #a8ffff;
+    border-right: 1px solid #1e9999;
+    border-bottom: 1px solid #1e9999;
+    box-shadow: 0 0 7px #55ffff, inset 1px 1px 0 #8effff;
+    animation: pulse-diamond 2.5s infinite alternate;
+}
+
+@keyframes pulse-diamond {
+    0% { filter: brightness(1); }
+    100% { filter: brightness(1.25); box-shadow: 0 0 12px #55ffff; }
+}
+
+#mc-tooltip {
+    position: absolute;
+    display: none;
+    pointer-events: none;
+    z-index: 100;
+    background: #100010;
+    border: 3px solid #240a5e;
+    outline: 2px solid #100010;
+    box-shadow: 0 0 0 2px #28004f, 4px 4px 0px rgba(0, 0, 0, 0.6);
+    padding: 8px 12px;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.pixel-text-shadow {
+    text-shadow: 2px 2px 0px #1a1a1a;
+}
+
+.exp-bar-frame {
+    background: #09090b;
+    border: 2px solid #383838;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Minecraft 3D Block (Isometric Cube) */
+.mc-block-3d-wrap {
+    width: 26px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.mc-block-3d {
+    width: 16px;
+    height: 16px;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateX(-30deg) rotateY(45deg);
+}
+
+.mc-block-3d .face {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-size: cover;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+.mc-block-3d .top {
+    transform: rotateX(90deg) translateZ(8px);
+    background-image: url('images/crafting_table_top.png');
+    filter: brightness(1.05);
+}
+
+.mc-block-3d .front {
+    transform: rotateY(0deg) translateZ(8px);
+    background-image: url('images/crafting_table_front.png');
+    filter: brightness(0.68);
+}
+
+.mc-block-3d .side {
+    transform: rotateY(-90deg) translateZ(8px);
+    background-image: url('images/crafting_table_side.png');
+    filter: brightness(0.85);
+}
+
+/* Enchanted Minecraft Item */
+.enchanted-item-wrap {
+    position: relative;
+    width: 26px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+    filter: drop-shadow(0 0 4px rgba(180, 80, 255, 0.6));
+}
+
+.enchanted-item-base {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    display: block;
+}
+
+.enchanted-item-glint {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url('images/enchanted_glint_item.png');
+    background-size: 40px 40px;
+    mix-blend-mode: color-dodge;
+    opacity: 0.95;
+    -webkit-mask-image: url('images/netherite_pickaxe.png');
+    mask-image: url('images/netherite_pickaxe.png');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    animation: mc-glint 3s linear infinite;
+}
+
+@keyframes mc-glint {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: -40px -40px;
+    }
+}
+
+/* Minecraft Animated Soul Fire */
+.mc-soul-fire {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url('images/soul_fire_1.png');
+    background-size: 16px 512px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    animation: mc-soul-fire-anim 1.6s steps(32) infinite;
+    filter: drop-shadow(0 0 4px rgba(77, 227, 227, 0.6));
+    flex-shrink: 0;
+}
+
+@keyframes mc-soul-fire-anim {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 0 -512px;
+    }
+}

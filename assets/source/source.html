@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Contribution Grid - CraftHub</title>
+    <!-- Google Fonts: VT323 & Press Start 2P for authentic Minecraft retro pixel feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --mc-dirt-dark: #4a2f1b;
+            --mc-stone: #686868;
+            --mc-stone-light: #8b8b8b;
+            --mc-stone-dark: #373737;
+            --mc-gui-bg: #c6c6c6;
+            --mc-gui-dark: #555555;
+            --mc-gui-light: #ffffff;
+            --mc-gui-border-outer: #000000;
+
+            /* Level Colors (Minecraft Block Themes) */
+            --mc-lvl-0: #1d1f21;
+            /* Bedrock / Deepslate Empty */
+            --mc-lvl-1: #2d5a27;
+            /* Oak Leaves / Sprout */
+            --mc-lvl-2: #438e38;
+            /* Grass Block Green */
+            --mc-lvl-3: #58be49;
+            /* Lush Slime / Emerald Tint */
+            --mc-lvl-4: #55ff55;
+            /* Glowing Experience / Redstone Green */
+
+            /* Rare special block accents */
+            --mc-diamond: #55ffff;
+            --mc-gold: #ffaa00;
+            --mc-redstone: #ff5555;
+        }
+
+        * {
+            image-rendering: pixelated;
+            user-select: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', monospace;
+            background-color: #121214;
+            background-image:
+                radial-gradient(rgba(0, 0, 0, 0.7) 30%, rgba(0, 0, 0, 0.95) 90%),
+                repeating-linear-gradient(0deg, #18191c, #18191c 32px, #141517 32px, #141517 64px),
+                repeating-linear-gradient(90deg, #18191c, #18191c 32px, #141517 32px, #141517 64px);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* Authentic Minecraft 3D Beveled Box Border */
+        .mc-button {
+            position: relative;
+            background: #999999;
+            border-top: 3px solid #dbdbdb;
+            border-left: 3px solid #dbdbdb;
+            border-right: 3px solid #4a4a4a;
+            border-bottom: 3px solid #4a4a4a;
+            box-shadow: inset -2px -2px 0px 0px #2a2a2a, inset 2px 2px 0px 0px #ffffff;
+            text-shadow: 2px 2px 0px #222222;
+            transition: all 0.05s ease-in-out;
+        }
+
+        .mc-button:hover {
+            background: #a9b5db;
+            border-top: 3px solid #eef2ff;
+            border-left: 3px solid #eef2ff;
+            border-right: 3px solid #455073;
+            border-bottom: 3px solid #455073;
+            color: #ffffa0;
+            text-shadow: 2px 2px 0px #242938;
+        }
+
+        .mc-button:active {
+            border-top: 3px solid #455073;
+            border-left: 3px solid #455073;
+            border-right: 3px solid #dbdbdb;
+            border-bottom: 3px solid #dbdbdb;
+            box-shadow: inset 2px 2px 0px 0px #2a2a2a;
+        }
+
+        /* Classic MC GUI Panel Frame */
+        .mc-panel {
+            background: #c6c6c6;
+            border-top: 4px solid #ffffff;
+            border-left: 4px solid #ffffff;
+            border-right: 4px solid #555555;
+            border-bottom: 4px solid #555555;
+            outline: 4px solid #000000;
+            box-shadow: 0 12px 0 rgba(0, 0, 0, 0.5), inset -2px -2px 0 0 #373737, inset 2px 2px 0 0 #eaeaea;
+        }
+
+        /* Inset Slot / Inventory Box */
+        .mc-slot {
+            background: #8b8b8b;
+            border-top: 3px solid #373737;
+            border-left: 3px solid #373737;
+            border-right: 3px solid #ffffff;
+            border-bottom: 3px solid #ffffff;
+            box-shadow: inset 1px 1px 0px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Pixel Grid Tile styling */
+        .pixel-tile {
+            width: 15px;
+            height: 15px;
+            position: relative;
+            cursor: pointer;
+            image-rendering: pixelated;
+            transition: transform 0.08s cubic-bezier(0, 0, 0.2, 1);
+        }
+
+        .pixel-tile:hover {
+            transform: scale(1.35);
+            z-index: 30;
+            outline: 2px solid #ffffff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+        }
+
+        /* Level Appearances (Minecraft Texture Insets) */
+        .tile-lvl-0 {
+            background: #232529;
+            border-top: 1px solid #32353a;
+            border-left: 1px solid #32353a;
+            border-right: 1px solid #141517;
+            border-bottom: 1px solid #141517;
+        }
+
+        .tile-lvl-1 {
+            background: #2e6628;
+            border-top: 1px solid #45883a;
+            border-left: 1px solid #45883a;
+            border-right: 1px solid #1b3d17;
+            border-bottom: 1px solid #1b3d17;
+            box-shadow: inset 1px 1px 0 #3d7933;
+        }
+
+        .tile-lvl-2 {
+            background: #479e37;
+            border-top: 1px solid #64c251;
+            border-left: 1px solid #64c251;
+            border-right: 1px solid #2d6b21;
+            border-bottom: 1px solid #2d6b21;
+            box-shadow: inset 1px 1px 0 #57b344;
+        }
+
+        .tile-lvl-3 {
+            background: #5fd342;
+            border-top: 1px solid #89f56e;
+            border-left: 1px solid #89f56e;
+            border-right: 1px solid #3ca523;
+            border-bottom: 1px solid #3ca523;
+            box-shadow: inset 1px 1px 0 #76e355;
+        }
+
+        .tile-lvl-4 {
+            background: #6cfc4e;
+            border-top: 1px solid #b3ff9c;
+            border-left: 1px solid #b3ff9c;
+            border-right: 1px solid #44cf26;
+            border-bottom: 1px solid #44cf26;
+            box-shadow: 0 0 4px #58ff38, inset 1px 1px 0 #95ff7a;
+        }
+
+        /* Rare Diamond Commit block */
+        .tile-diamond {
+            background: #4de3e3;
+            border-top: 1px solid #a8ffff;
+            border-left: 1px solid #a8ffff;
+            border-right: 1px solid #1e9999;
+            border-bottom: 1px solid #1e9999;
+            box-shadow: 0 0 7px #55ffff, inset 1px 1px 0 #8effff;
+            animation: pulse-diamond 2.5s infinite alternate;
+        }
+
+        /* Rare Golden Apple Commit block */
+        .tile-gold {
+            background: #e8b11c;
+            border-top: 1px solid #ffe875;
+            border-left: 1px solid #ffe875;
+            border-right: 1px solid #8a6405;
+            border-bottom: 1px solid #8a6405;
+            box-shadow: 0 0 6px #ffbe26, inset 1px 1px 0 #ffd647;
+        }
+
+        @keyframes pulse-diamond {
+            0% {
+                filter: brightness(1);
+            }
+
+            100% {
+                filter: brightness(1.25);
+                box-shadow: 0 0 12px #55ffff;
+            }
+        }
+
+        /* Tooltip Minecraft Style */
+        #mc-tooltip {
+            position: absolute;
+            display: none;
+            pointer-events: none;
+            z-index: 100;
+            background: #100010;
+            border: 3px solid #240a5e;
+            outline: 2px solid #100010;
+            box-shadow: 0 0 0 2px #28004f, 4px 4px 0px rgba(0, 0, 0, 0.6);
+            padding: 8px 12px;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .pixel-text-shadow {
+            text-shadow: 2px 2px 0px #1a1a1a;
+        }
+
+        .exp-bar-frame {
+            background: #09090b;
+            border: 2px solid #383838;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+
+<body class="p-6 md:p-10 flex flex-col items-center justify-center">
+
+    <!-- Main HUD / Window -->
+    <main class="w-full max-w-5xl">
+
+        <!-- Top Bar: Minecraft Profile & Level Banner -->
+        <header class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+            <div class="flex items-center gap-4">
+                <!-- Steve / Miner Avatar in Beveled Frame -->
+                <div class="mc-slot p-1.5 flex items-center justify-center bg-[#5c5c5c] shadow-inner">
+                    <svg class="w-14 h-14 rounded-none" viewBox="0 0 16 16" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <!-- Steve Pixel Head -->
+                        <rect width="16" height="16" fill="#181310" />
+                        <!-- Hair -->
+                        <rect x="2" y="2" width="12" height="4" fill="#362215" />
+                        <rect x="2" y="6" width="2" height="4" fill="#362215" />
+                        <rect x="12" y="6" width="2" height="4" fill="#362215" />
+                        <!-- Face -->
+                        <rect x="4" y="6" width="8" height="7" fill="#b88358" />
+                        <!-- Eyes -->
+                        <rect x="4" y="8" width="2" height="1" fill="#ffffff" />
+                        <rect x="6" y="8" width="1" height="1" fill="#2d3d99" />
+                        <rect x="10" y="8" width="2" height="1" fill="#ffffff" />
+                        <rect x="9" y="8" width="1" height="1" fill="#2d3d99" />
+                        <!-- Nose & Mouth -->
+                        <rect x="7" y="9" width="2" height="2" fill="#9e663e" />
+                        <rect x="6" y="11" width="4" height="1" fill="#4d2c16" />
+                    </svg>
+                </div>
+
+                <div>
+                    <div class="flex items-center gap-3">
+                        <h1 class="text-xl md:text-2xl text-[#ffff55] pixel-text-shadow tracking-wider">Steve_Developer
+                        </h1>
+                        <span
+                            class="bg-[#240a5e] border border-[#a855f7] text-[#55ffff] text-[10px] px-2 py-1 shadow">LVL
+                            64 ARCHITECT</span>
+                    </div>
+                    <p class="text-xs text-[#aaaaaa] mt-1 font-mono tracking-tight">World: <span
+                            class="text-[#55ff55]">Overworld/master</span> &bull; Game Mode: <span
+                            class="text-[#ffaa00]">Survival Coding</span></p>
+                </div>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="flex items-center gap-2">
+                <button id="toggle-grid-mode"
+                    class="mc-button px-3 py-2 text-xs text-white font-bold flex items-center gap-2">
+                    <span>⚔️</span> <span>BIOME THEME</span>
+                </button>
+                <button id="mine-commit-btn"
+                    class="mc-button px-3 py-2 text-xs text-white font-bold flex items-center gap-2 bg-[#6b8c42]">
+                    <span>⛏️</span> <span>MINE COMMIT</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- The Primary Minecraft GUI Window (Contribution Graph) -->
+        <section class="mc-panel p-6 text-[#2d2d2d] mb-8">
+
+            <!-- Panel Header / Title -->
+            <div class="flex flex-wrap items-center justify-between border-b-4 border-[#555555] pb-4 mb-5">
+                <div>
+                    <h2 class="text-base md:text-lg font-bold text-[#373737] tracking-tight flex items-center gap-2">
+                        <span>📜</span> CRAFTING LOG: CONTRIBUTION GRID
+                    </h2>
+                    <p class="text-[11px] text-[#555555] mt-1 font-sans font-semibold">1,428 blocks forged in the last
+                        365 in-game days</p>
+                </div>
+
+                <!-- Year Selector Tabs (Minecraft UI style) -->
+                <div class="flex items-center gap-1 mt-2 sm:mt-0">
+                    <button class="mc-button px-2.5 py-1 text-[10px] font-bold text-[#1f232b]">2023</button>
+                    <button class="mc-button px-2.5 py-1 text-[10px] font-bold text-[#1f232b]">2024</button>
+                    <button
+                        class="mc-button px-2.5 py-1 text-[10px] font-bold text-white bg-[#555555] !border-t-[#333] !border-l-[#333] !border-b-[#eee] !border-r-[#eee]">2025</button>
+                </div>
+            </div>
+
+            <!-- Month Labels -->
+            <div
+                class="hidden md:grid grid-flow-col auto-cols-fr pl-8 pr-2 text-[10px] font-bold text-[#444444] mb-2 text-left">
+                <span>Jan</span>
+                <span>Feb</span>
+                <span>Mar</span>
+                <span>Apr</span>
+                <span>May</span>
+                <span>Jun</span>
+                <span>Jul</span>
+                <span>Aug</span>
+                <span>Sep</span>
+                <span>Oct</span>
+                <span>Nov</span>
+                <span>Dec</span>
+            </div>
+
+            <!-- Graph Container with Days on Left and 52-Week Grid -->
+            <div class="mc-slot p-3 overflow-x-auto bg-[#18181b] flex gap-3">
+                <!-- Weekday Labels -->
+                <div
+                    class="flex flex-col justify-between text-[9px] font-bold text-[#777777] py-1 select-none pr-1 border-r border-[#333338]">
+                    <span class="h-[15px] leading-[15px]">Mon</span>
+                    <span class="h-[15px] leading-[15px]">Wed</span>
+                    <span class="h-[15px] leading-[15px]">Fri</span>
+                    <span class="h-[15px] leading-[15px]">Sun</span>
+                </div>
+
+                <!-- 52 Columns x 7 Rows Pixel Grid -->
+                <div id="commit-grid" class="grid grid-rows-7 grid-flow-col gap-[3px]">
+                    <!-- Populated by JavaScript with realistic commit density + rare diamond/gold blocks -->
+                </div>
+            </div>
+
+            <!-- Footer Inside Panel: Legend & Current Streak -->
+            <div
+                class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-5 pt-4 border-t-2 border-[#9e9e9e] text-xs">
+
+                <!-- Legend Minecraft Blocks -->
+                <div class="flex items-center gap-2 text-[10px] font-bold text-[#3d3d3d]">
+                    <span>Bedrock (0)</span>
+                    <div class="flex items-center gap-1.5 px-2 py-1 bg-[#202022] rounded-none border border-[#444]">
+                        <span class="pixel-tile tile-lvl-0 inline-block"></span>
+                        <span class="pixel-tile tile-lvl-1 inline-block"></span>
+                        <span class="pixel-tile tile-lvl-2 inline-block"></span>
+                        <span class="pixel-tile tile-lvl-3 inline-block"></span>
+                        <span class="pixel-tile tile-lvl-4 inline-block"></span>
+                        <span class="pixel-tile tile-diamond inline-block" title="Diamond Boss Commit"></span>
+                    </div>
+                    <span>Emerald Max (4+)</span>
+                </div>
+
+                <!-- Streak Badge -->
+                <div class="flex items-center gap-3">
+                    <div
+                        class="flex items-center gap-1 bg-[#d9d9d9] px-3 py-1.5 border-2 border-[#555] shadow-inner text-[10px] font-bold text-[#1a1a1a]">
+                        <span class="text-[#ff5555]">🔥</span>
+                        <span>CURRENT STREAK: <strong class="text-[#b91c1c]">28 DAYS</strong></span>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Minecraft Hotbar & Inventory Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+
+            <!-- Stat 1: Total XP / Commits -->
+            <div class="mc-panel p-4 bg-[#b8b8b8]">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-8 mc-slot bg-[#383838] flex items-center justify-center text-lg">
+                        🟩
+                    </div>
+                    <div>
+                        <div class="text-[9px] text-[#444] font-bold">TOTAL COMMITS</div>
+                        <div class="text-sm md:text-base text-[#111] font-extrabold" id="total-commits-counter">1,428
+                        </div>
+                    </div>
+                </div>
+                <p class="text-[9px] text-[#555] leading-relaxed font-sans font-bold">Crafted 342 pull requests into the
+                    realm.</p>
+            </div>
+
+            <!-- Stat 2: Longest Streak (Diamond Pickaxe) -->
+            <div class="mc-panel p-4 bg-[#b8b8b8]">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-8 mc-slot bg-[#383838] flex items-center justify-center text-lg">
+                        💎
+                    </div>
+                    <div>
+                        <div class="text-[9px] text-[#444] font-bold">MAX STREAK</div>
+                        <div class="text-sm md:text-base text-[#006666] font-extrabold">64 DAYS</div>
+                    </div>
+                </div>
+                <p class="text-[9px] text-[#555] leading-relaxed font-sans font-bold">Achieved the "Unbreakable"
+                    milestone badge.</p>
+            </div>
+
+            <!-- Stat 3: Rare Ore Commits (Diamonds found) -->
+            <div class="mc-panel p-4 bg-[#b8b8b8]">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-8 mc-slot bg-[#383838] flex items-center justify-center text-lg">
+                        ✨
+                    </div>
+                    <div>
+                        <div class="text-[9px] text-[#444] font-bold">DIAMOND DROPS</div>
+                        <div class="text-sm md:text-base text-[#7c2d12] font-extrabold">18 RELEASES</div>
+                    </div>
+                </div>
+                <p class="text-[9px] text-[#555] leading-relaxed font-sans font-bold">Major version deploys straight to
+                    production.</p>
+            </div>
+
+            <!-- Stat 4: Enchantment / Consistency -->
+            <div class="mc-panel p-4 bg-[#b8b8b8]">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-8 mc-slot bg-[#383838] flex items-center justify-center text-lg">
+                        📖
+                    </div>
+                    <div>
+                        <div class="text-[9px] text-[#444] font-bold">EFFICIENCY</div>
+                        <div class="text-sm md:text-base text-[#1e3a8a] font-extrabold">LEVEL V</div>
+                    </div>
+                </div>
+                <p class="text-[9px] text-[#555] leading-relaxed font-sans font-bold">Top 1% active builders across the
+                    servers.</p>
+            </div>
+
+        </div>
+
+        <!-- Authentic Minecraft Hotbar (Slots 1-9) with Commit Equipment -->
+        <div class="flex flex-col items-center justify-center">
+            <div class="text-[10px] text-[#888888] mb-2 tracking-widest uppercase">Quick-Bar Inventory</div>
+            <div class="mc-panel p-2 flex items-center gap-2 bg-[#9c9c9c] shadow-2xl">
+
+                <!-- Slot 1 -->
+                <div class="mc-slot w-12 h-12 flex flex-col items-center justify-center relative group cursor-pointer hover:bg-[#a3a3a3]"
+                    title="Diamond Sword: Refactor weapon">
+                    <span class="text-xl">🗡️</span>
+                    <span class="absolute bottom-1 right-1 text-[8px] font-bold text-white pixel-text-shadow">64</span>
+                </div>
+
+                <!-- Slot 2 -->
+                <div class="mc-slot w-12 h-12 flex flex-col items-center justify-center relative group cursor-pointer hover:bg-[#a3a3a3]"
+                    title="Diamond Pickaxe: Bug mining">
+                    <span class="text-xl">⛏️</span>
+                    <span class="absolute bottom-1 right-1 text-[8px] font-bold text-white pixel-text-shadow">1</span>
+                </div>
+
+                <!-- Slot 3 -->
+                <div class="mc-slot w-12 h-12 flex flex-col items-center justify-center relative group cursor-pointer hover:bg-[#a3a3a3]"
+                    title="Golden Apple: Healthy deploy">
+                    <span class="text-xl">🍏</span>
+                    <span class="absolute bottom-1 right-1 text-[8px] font-bold text-white pixel-text-shadow">12</span>
+                </div>
+
+                <!-- Slot 4 -->
+                <div class="mc-slot w-12 h-12 flex flex-col items-center justify-center relative group cursor-pointer hover:bg-[#a3a3a3]"
+                    title="Redstone Torch: CI/CD Pipeline">
+                    <span class="text-xl">🕯️</span>
+                    <span class="absolute bottom-1 right-1 text-[8px] font-bold text-white pixel-text-shadow">32</span>
+                </div>
+
+                <!-- Slot 5 -->
+                <div class="mc-slot w-12 h-12 flex flex-col items-center justify-center relative group cursor-pointer hover:bg-[#a3a3a3]"
+                    title="Book & Quill: Documentation">
+                    <span class="text-xl">📜</span>
+                    <span class="absolute bottom-1 right-1 text-[8px] font-bold text-white pixel-text-shadow">4</span>
+                </div>
+
+                <!-- Slot 6 -->
+                <div class="mc-slot w-12 h-12 flex flex-col items-center justify-center relative group cursor-pointer hover:bg-[#a3a3a3]"
+                    title="Emerald: Merged Pull Request">
+                    <span class="text-xl">🟢</span>
+                    <span class="absolute bottom-1 right-1 text-[8px] font-bold text-white pixel-text-shadow">58</span>
+                </div>
+
+                <!-- Slot 7 -->
+                <div class="mc-slot w-12 h-12 flex flex-col items-center justify-center relative group cursor-pointer hover:bg-[#a3a3a3]"
+                    title="TNT: Deprecated Code Cleanup">
+                    <span class="text-xl">🧨</span>
+                    <span class="absolute bottom-1 right-1 text-[8px] font-bold text-white pixel-text-shadow">8</span>
+                </div>
+
+                <!-- Slot 8 -->
+                <div class="mc-slot w-12 h-12 flex flex-col items-center justify-center relative group cursor-pointer hover:bg-[#a3a3a3]"
+                    title="Ender Pearl: Fast Teleport Review">
+                    <span class="text-xl">🔮</span>
+                    <span class="absolute bottom-1 right-1 text-[8px] font-bold text-white pixel-text-shadow">16</span>
+                </div>
+
+                <!-- Slot 9 -->
+                <div class="mc-slot w-12 h-12 flex flex-col items-center justify-center relative group cursor-pointer hover:bg-[#a3a3a3]"
+                    title="Compass: Architectural Direction">
+                    <span class="text-xl">🧭</span>
+                    <span class="absolute bottom-1 right-1 text-[8px] font-bold text-white pixel-text-shadow">1</span>
+                </div>
+
+            </div>
+
+            <!-- Experience Bar HUD under Hotbar -->
+            <div class="w-72 mt-3 flex flex-col items-center">
+                <div class="text-[#80ff00] text-xs font-bold mb-1 pixel-text-shadow">LEVEL 64</div>
+                <div class="w-full h-3 exp-bar-frame relative p-[1px]">
+                    <div class="h-full bg-gradient-to-r from-[#22c55e] via-[#4ade80] to-[#86efac] w-[78%]"></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Minecraft Hover Tooltip Element -->
+    <div id="mc-tooltip">
+        <div id="tooltip-title" class="text-[#ffff55] font-bold mb-1">2024-11-14</div>
+        <div id="tooltip-desc" class="text-[#ffffff]">6 commits logged</div>
+        <div id="tooltip-sub" class="text-[#55ffff] text-[9px] mt-1 italic">Type: Emerald Crafting</div>
+    </div>
+
+    <script>
+        // Generate 52 weeks x 7 days = 364 tiles with varied Minecraft tiers
+        const gridEl = document.getElementById('commit-grid');
+        const tooltip = document.getElementById('mc-tooltip');
+        const tooltipTitle = document.getElementById('tooltip-title');
+        const tooltipDesc = document.getElementById('tooltip-desc');
+        const tooltipSub = document.getElementById('tooltip-sub');
+        const counterEl = document.getElementById('total-commits-counter');
+
+        let totalCommits = 1428;
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        // Biome mode toggle: 0 = Overworld (Green), 1 = Nether (Crimson/Lava), 2 = End (Ender Purple)
+        let currentTheme = 'overworld';
+
+        const sampleDates = [];
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - 364);
+
+        for (let w = 0; w < 52; w++) {
+            for (let d = 0; d < 7; d++) {
+                const currentDate = new Date(startDate);
+                currentDate.setDate(startDate.getDate() + (w * 7 + d));
+
+                // Randomly assign Minecraft commit tiers
+                const rand = Math.random();
+                let lvl = 'tile-lvl-0';
+                let commits = 0;
+                let note = "Deepslate Silence (0 Commits)";
+
+                if (rand > 0.88) {
+                    if (Math.random() > 0.8) {
+                        lvl = 'tile-diamond';
+                        commits = Math.floor(Math.random() * 8) + 12;
+                        note = '💎 Diamond Ore! Epic Release';
+                    } else if (Math.random() > 0.7) {
+                        lvl = 'tile-gold';
+                        commits = Math.floor(Math.random() * 6) + 8;
+                        note = '✨ Gold Ingot! Milestone Pull Request';
+                    } else {
+                        lvl = 'tile-lvl-4';
+                        commits = Math.floor(Math.random() * 6) + 7;
+                        note = '🟩 Emerald Mastercraft (7-12 commits)';
+                    }
+                } else if (rand > 0.65) {
+                    lvl = 'tile-lvl-3';
+                    commits = Math.floor(Math.random() * 3) + 4;
+                    note = '🌿 Lush Vines Crafting (4-6 commits)';
+                } else if (rand > 0.40) {
+                    lvl = 'tile-lvl-2';
+                    commits = Math.floor(Math.random() * 2) + 2;
+                    note = '🌱 Oak Sapling Code (2-3 commits)';
+                } else if (rand > 0.22) {
+                    lvl = 'tile-lvl-1';
+                    commits = 1;
+                    note = '🍂 Sprout Work (1 commit)';
+                }
+
+                const tile = document.createElement('div');
+                tile.className = `pixel-tile ${lvl}`;
+                tile.dataset.date = currentDate.toISOString().split('T')[0];
+                tile.dataset.commits = commits;
+                tile.dataset.note = note;
+
+                // Hover event for authentic Minecraft Tooltip
+                tile.addEventListener('mouseenter', (e) => {
+                    tooltipTitle.textContent = tile.dataset.date;
+                    tooltipDesc.textContent = tile.dataset.commits > 0 ? `${tile.dataset.commits} commits forged` : `No activity recorded`;
+                    tooltipSub.textContent = tile.dataset.note;
+                    tooltip.style.display = 'block';
+                    positionTooltip(e);
+                });
+
+                tile.addEventListener('mousemove', (e) => {
+                    positionTooltip(e);
+                });
+
+                tile.addEventListener('mouseleave', () => {
+                    tooltip.style.display = 'none';
+                });
+
+                // Click to "mine" a commit directly
+                tile.addEventListener('click', () => {
+                    mineBlock(tile);
+                });
+
+                gridEl.appendChild(tile);
+            }
+        }
+
+        function positionTooltip(e) {
+            const x = e.pageX + 14;
+            const y = e.pageY - 38;
+            tooltip.style.left = `${x}px`;
+            tooltip.style.top = `${y}px`;
+        }
+
+        function mineBlock(tile) {
+            let cur = parseInt(tile.dataset.commits) || 0;
+            cur += 1;
+            totalCommits += 1;
+            tile.dataset.commits = cur;
+            counterEl.textContent = totalCommits.toLocaleString();
+
+            // Bump tier class
+            tile.className = 'pixel-tile tile-lvl-4';
+            tile.dataset.note = '⚡ Overcharged with XP (+1)';
+
+            // Floating XP popup
+            showFloatingText(tile, "+1 XP");
+        }
+
+        function showFloatingText(element, text) {
+            const rect = element.getBoundingClientRect();
+            const popup = document.createElement('div');
+            popup.textContent = text;
+            popup.style.position = 'fixed';
+            popup.style.left = `${rect.left}px`;
+            popup.style.top = `${rect.top - 10}px`;
+            popup.style.color = '#55ff55';
+            popup.style.fontFamily = "'Press Start 2P', monospace";
+            popup.style.fontSize = '10px';
+            popup.style.textShadow = '2px 2px 0 #000';
+            popup.style.pointerEvents = 'none';
+            popup.style.zIndex = '999';
+            popup.style.transition = 'all 0.6s ease-out';
+            document.body.appendChild(popup);
+
+            setTimeout(() => {
+                popup.style.transform = 'translateY(-24px)';
+                popup.style.opacity = '0';
+            }, 20);
+
+            setTimeout(() => {
+                popup.remove();
+            }, 700);
+        }
+
+        // Mine commit action button
+        document.getElementById('mine-commit-btn').addEventListener('click', () => {
+            const allTiles = document.querySelectorAll('.pixel-tile');
+            const randomTile = allTiles[Math.floor(Math.random() * allTiles.length)];
+            mineBlock(randomTile);
+        });
+
+        // Theme toggle (Biomes: Overworld -> Nether -> End)
+        document.getElementById('toggle-grid-mode').addEventListener('click', () => {
+            const r = document.documentElement;
+            if (currentTheme === 'overworld') {
+                currentTheme = 'nether';
+                r.style.setProperty('--mc-lvl-1', '#4d1919');
+                r.style.setProperty('--mc-lvl-2', '#8c2828');
+                r.style.setProperty('--mc-lvl-3', '#d94343');
+                r.style.setProperty('--mc-lvl-4', '#ff8533');
+            } else if (currentTheme === 'nether') {
+                currentTheme = 'end';
+                r.style.setProperty('--mc-lvl-1', '#231438');
+                r.style.setProperty('--mc-lvl-2', '#492275');
+                r.style.setProperty('--mc-lvl-3', '#893ecc');
+                r.style.setProperty('--mc-lvl-4', '#d284ff');
+            } else {
+                currentTheme = 'overworld';
+                r.style.setProperty('--mc-lvl-1', '#2d5a27');
+                r.style.setProperty('--mc-lvl-2', '#438e38');
+                r.style.setProperty('--mc-lvl-3', '#58be49');
+                r.style.setProperty('--mc-lvl-4', '#55ff55');
+            }
+        });
+    </script>
+</body>
+
+</html>
