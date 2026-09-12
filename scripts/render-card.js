@@ -167,8 +167,9 @@ async function generateCard() {
   const xpLevelRegex = /(<div class="text-\[#80ff00\][^>]*pixel-text-shadow">).*?(<\/div>)/;
   html = html.replace(xpLevelRegex, `$1LEVEL ${xpInfo.level}$2`);
 
-  const xpFillRegex = /(<div class="h-full bg-gradient-to-r from-\[#22c55e\] via-\[#4ade80\] to-\[#86efac\]\s*w-\[).*?(\]">)/;
-  html = html.replace(xpFillRegex, `$1${xpInfo.progressPercent}%$2`);
+  const xpFillRegex = /(clip-path:\s*inset\(0\s+)[0-9.]+(%\s+0\s+0\);)/;
+  const clipRight = Math.max(0, Math.min(100, 100 - xpInfo.progressPercent)).toFixed(1);
+  html = html.replace(xpFillRegex, `$1${clipRight}$2`);
 
   const xpTextRegex = /TOTAL\s*COMMITS:\s*--\/--/;
   html = html.replace(xpTextRegex, `TOTAL COMMITS: ${data.totalAllTime} / ${xpInfo.commitsForNextLevel}`);

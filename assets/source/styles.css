@@ -186,6 +186,22 @@ body {
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
+.mc-exp-bar-bg {
+    background-image: url('images/experience_bar_background.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+.mc-exp-bar-progress {
+    background-image: url('images/experience_bar_progress.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
 /* Minecraft 3D Block (Isometric Cube) */
 .mc-block-3d-wrap {
     width: 26px;
