@@ -585,6 +585,77 @@
             </div>
         </div>
 
+        <!-- SVG Pixelation Filter for Hotbar Icons -->
+        <svg width="0" height="0" class="absolute w-0 h-0 pointer-events-none" aria-hidden="true">
+            <defs>
+                <filter id="pixelate" x="0" y="0" width="100%" height="100%">
+                    <feFlood x="1" y="1" height="1" width="1"/>
+                    <feComposite width="2.5" height="2.5"/>
+                    <feTile result="tile"/>
+                    <feComposite in="SourceGraphic" in2="tile" operator="in"/>
+                    <feMorphology operator="dilate" radius="1.25"/>
+                </filter>
+            </defs>
+        </svg>
+
+        <!-- Authentic Minecraft Hotbar (9 Slots: Top Languages) -->
+        <div class="w-full flex flex-col items-center justify-center mt-4" id="card-hotbar">
+            <div class="w-full mc-panel p-2.5 grid grid-cols-9 gap-2.5 bg-[#232327]">
+                <!-- HOTBAR_SLOTS_START -->
+                <!-- Slot 1: TypeScript -->
+                <div class="mc-slot aspect-square flex items-center justify-center relative group cursor-pointer hover:bg-[#202026] transition-colors"
+                    id="hotbar-slot-1" title="TypeScript: 62.4%">
+                    <img src="images/icons/typescript.svg" class="w-11 h-11 object-contain pixelated-icon" alt="TypeScript" />
+                    <span class="absolute bottom-1.5 right-2 text-xs md:text-sm font-bold text-white pixel-text-shadow select-none">62%</span>
+                </div>
+                <!-- Slot 2: JavaScript -->
+                <div class="mc-slot aspect-square flex items-center justify-center relative group cursor-pointer hover:bg-[#202026] transition-colors"
+                    id="hotbar-slot-2" title="JavaScript: 13.8%">
+                    <img src="images/icons/javascript.svg" class="w-11 h-11 object-contain pixelated-icon" alt="JavaScript" />
+                    <span class="absolute bottom-1.5 right-2 text-xs md:text-sm font-bold text-white pixel-text-shadow select-none">14%</span>
+                </div>
+                <!-- Slot 3: HTML5 -->
+                <div class="mc-slot aspect-square flex items-center justify-center relative group cursor-pointer hover:bg-[#202026] transition-colors"
+                    id="hotbar-slot-3" title="HTML: 13.1%">
+                    <img src="images/icons/html5.svg" class="w-11 h-11 object-contain pixelated-icon" alt="HTML" />
+                    <span class="absolute bottom-1.5 right-2 text-xs md:text-sm font-bold text-white pixel-text-shadow select-none">13%</span>
+                </div>
+                <!-- Slot 4: C# -->
+                <div class="mc-slot aspect-square flex items-center justify-center relative group cursor-pointer hover:bg-[#202026] transition-colors"
+                    id="hotbar-slot-4" title="C#: 4.8%">
+                    <img src="images/icons/csharp.svg" class="w-11 h-11 object-contain pixelated-icon" alt="C#" />
+                    <span class="absolute bottom-1.5 right-2 text-xs md:text-sm font-bold text-white pixel-text-shadow select-none">5%</span>
+                </div>
+                <!-- Slot 5: CSS3 -->
+                <div class="mc-slot aspect-square flex items-center justify-center relative group cursor-pointer hover:bg-[#202026] transition-colors"
+                    id="hotbar-slot-5" title="CSS: 3.5%">
+                    <img src="images/icons/css3.svg" class="w-11 h-11 object-contain pixelated-icon" alt="CSS" />
+                    <span class="absolute bottom-1.5 right-2 text-xs md:text-sm font-bold text-white pixel-text-shadow select-none">4%</span>
+                </div>
+                <!-- Slot 6: Java -->
+                <div class="mc-slot aspect-square flex items-center justify-center relative group cursor-pointer hover:bg-[#202026] transition-colors"
+                    id="hotbar-slot-6" title="Java: 2.4%">
+                    <img src="images/icons/java.svg" class="w-11 h-11 object-contain pixelated-icon" alt="Java" />
+                    <span class="absolute bottom-1.5 right-2 text-xs md:text-sm font-bold text-white pixel-text-shadow select-none">2%</span>
+                </div>
+                <!-- Slot 7: Python -->
+                <div class="mc-slot aspect-square flex items-center justify-center relative group cursor-pointer hover:bg-[#202026] transition-colors"
+                    id="hotbar-slot-7" title="Python: 0.1%">
+                    <img src="images/icons/python.svg" class="w-11 h-11 object-contain pixelated-icon" alt="Python" />
+                    <span class="absolute bottom-1.5 right-2 text-xs md:text-sm font-bold text-white pixel-text-shadow select-none">1%</span>
+                </div>
+                <!-- Slot 8: Empty -->
+                <div class="mc-slot aspect-square flex items-center justify-center relative group cursor-pointer hover:bg-[#202026] transition-colors"
+                    id="hotbar-slot-8">
+                </div>
+                <!-- Slot 9: Empty -->
+                <div class="mc-slot aspect-square flex items-center justify-center relative group cursor-pointer hover:bg-[#202026] transition-colors"
+                    id="hotbar-slot-9">
+                </div>
+                <!-- HOTBAR_SLOTS_END -->
+            </div>
+        </div>
+
     </main>
 
 </body>

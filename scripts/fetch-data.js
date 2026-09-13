@@ -88,6 +88,54 @@ async function fetchRollingYearContributions() {
   return data?.user?.contributionsCollection?.contributionCalendar;
 }
 
+async function fetchUserLanguages() {
+  const query = `query {
+    user(login: "${USERNAME}") {
+      repositories(ownerAffiliations: OWNER, first: 100, isFork: false) {
+        nodes {
+          name
+          languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {
+            edges {
+              size
+              node {
+                name
+                color
+              }
+            }
+          }
+        }
+      }
+    }
+  }`;
+
+  const data = await queryGraphQL(query);
+  const repos = data?.user?.repositories?.nodes || [];
+  const langMap = new Map();
+  let totalBytes = 0;
+
+  for (const repo of repos) {
+    for (const edge of repo.languages.edges) {
+      const { name, color } = edge.node;
+      const size = edge.size;
+      totalBytes += size;
+      if (!langMap.has(name)) {
+        langMap.set(name, { name, color, size: 0 });
+      }
+      langMap.get(name).size += size;
+    }
+  }
+
+  const sorted = Array.from(langMap.values())
+    .sort((a, b) => b.size - a.size)
+    .map(l => ({
+      ...l,
+      percent: Math.round((l.size / totalBytes) * 100),
+      exactPercent: ((l.size / totalBytes) * 100).toFixed(1)
+    }));
+
+  return sorted;
+}
+
 async function fetchUserData() {
   const currentYear = new Date().getFullYear();
   let totalAllTime = 0;
@@ -189,6 +237,10 @@ async function fetchUserData() {
     }
   }
 
+  // Fetch languages across all user repositories
+  console.log('Fetching top repository languages...');
+  const languages = await fetchUserLanguages();
+
   return {
     username: USERNAME,
     totalAllTime,
@@ -196,7 +248,8 @@ async function fetchUserData() {
     currentStreak,
     maxStreak,
     gridWeeks,
-    maxCountInGrid
+    maxCountInGrid,
+    languages
   };
 }
 

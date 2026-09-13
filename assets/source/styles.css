@@ -96,6 +96,11 @@ body {
     transition: transform 0.08s cubic-bezier(0, 0, 0.2, 1);
 }
 
+.pixelated-icon {
+    filter: url(#pixelate) drop-shadow(0 3px 4px rgba(0, 0, 0, 0.4));
+    image-rendering: pixelated;
+}
+
 .pixel-tile:hover {
     transform: scale(1.35);
     z-index: 30;

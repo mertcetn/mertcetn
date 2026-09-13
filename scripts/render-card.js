@@ -195,6 +195,50 @@ async function generateCard() {
   const xpTextRegex = /--\/--/;
   html = html.replace(xpTextRegex, `${data.totalAllTime} / ${xpInfo.commitsForNextLevel}`);
 
+  // 7. Dynamic Hotbar Slots (Top Languages)
+  const ICON_MAP = {
+    'TypeScript': 'typescript.svg',
+    'JavaScript': 'javascript.svg',
+    'HTML': 'html5.svg',
+    'C#': 'csharp.svg',
+    'CSS': 'css3.svg',
+    'Java': 'java.svg',
+    'Python': 'python.svg'
+  };
+
+  if (data.languages && data.languages.length > 0) {
+    const hotbarSlots = [];
+    let slotIndex = 1;
+
+    for (const lang of data.languages) {
+      if (slotIndex > 9) break;
+      const icon = ICON_MAP[lang.name];
+      if (icon) {
+        hotbarSlots.push(`                <!-- Slot ${slotIndex}: ${lang.name} -->
+                <div class="mc-slot aspect-square flex items-center justify-center relative group cursor-pointer hover:bg-[#202026] transition-colors"
+                    id="hotbar-slot-${slotIndex}" title="${lang.name}: ${lang.exactPercent}%">
+                    <img src="images/icons/${icon}" class="w-11 h-11 object-contain pixelated-icon" alt="${lang.name}" />
+                    <span class="absolute bottom-1.5 right-2 text-xs md:text-sm font-bold text-white pixel-text-shadow select-none">${Math.max(1, lang.percent)}%</span>
+                </div>`);
+        slotIndex++;
+      }
+    }
+
+    while (slotIndex <= 9) {
+      hotbarSlots.push(`                <!-- Slot ${slotIndex}: Empty -->
+                <div class="mc-slot aspect-square flex items-center justify-center relative group cursor-pointer hover:bg-[#202026] transition-colors"
+                    id="hotbar-slot-${slotIndex}">
+                </div>`);
+      slotIndex++;
+    }
+
+    const hotbarRegex = /<!-- HOTBAR_SLOTS_START -->[\s\S]*?<!-- HOTBAR_SLOTS_END -->/;
+    html = html.replace(
+      hotbarRegex,
+      `<!-- HOTBAR_SLOTS_START -->\n${hotbarSlots.join('\n')}\n                <!-- HOTBAR_SLOTS_END -->`
+    );
+  }
+
   // Save preview HTML
   const previewHtmlPath = path.join(__dirname, '../assets/source/card_preview.html');
   fs.writeFileSync(previewHtmlPath, html, 'utf8');
@@ -213,7 +257,7 @@ async function generateCard() {
 
   try {
     const page = await browser.newPage();
-    await page.setViewport({ width: 1200, height: 950, deviceScaleFactor: 1 });
+    await page.setViewport({ width: 1200, height: 1200, deviceScaleFactor: 1 });
 
     const fileUrl = 'file://' + previewHtmlPath.replace(/\\/g, '/');
     await page.goto(fileUrl, { waitUntil: 'networkidle0' });
@@ -256,6 +300,24 @@ async function generateCard() {
         document.body.style.backgroundImage = 'none';
       });
       await captureElementGif(xpBarEl, 'xp-bar', outDir, 1, true);
+      // Restore background
+      await page.evaluate(() => {
+        document.body.style.background = '';
+        document.body.style.backgroundColor = '';
+        document.body.style.backgroundImage = '';
+      });
+    }
+
+    // 5. Hotbar (Languages) - Transparent Background
+    console.log('Capturing Hotbar (Transparent Background)...');
+    const hotbarEl = await page.$('#card-hotbar .mc-panel') || await page.$('#card-hotbar');
+    if (hotbarEl) {
+      await page.evaluate(() => {
+        document.body.style.background = 'transparent';
+        document.body.style.backgroundColor = 'transparent';
+        document.body.style.backgroundImage = 'none';
+      });
+      await captureElementGif(hotbarEl, 'hotbar', outDir, 1, true);
       // Restore background for profile-card
       await page.evaluate(() => {
         document.body.style.background = '';
@@ -264,7 +326,7 @@ async function generateCard() {
       });
     }
 
-    // 5. Complete All-In-One Profile Card
+    // 6. Complete All-In-One Profile Card
     console.log('Capturing Complete Card (32 frames)...');
     const boardEl = await page.$('#card-capture');
     if (boardEl) {
