@@ -102,41 +102,26 @@ body {
 }
 
 .mc-icon-sprite {
-    width: 22px;
-    height: 22px;
+    width: 44px;
+    height: 44px;
     image-rendering: pixelated;
     display: inline-block;
 }
 
-@keyframes mc-jitter-1 {
-    0%, 100% { transform: translateY(0); }
-    25% { transform: translateY(-2px); }
-    75% { transform: translateY(1px); }
+.mc-level-text {
+    font-family: 'Press Start 2P', monospace;
+    color: #80ff00;
+    text-shadow:
+        -2px -2px 0 #000,
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000,
+         0px -2px 0 #000,
+         0px  2px 0 #000,
+        -2px  0px 0 #000,
+         2px  0px 0 #000;
 }
 
-@keyframes mc-jitter-2 {
-    0%, 100% { transform: translateY(0); }
-    25% { transform: translateY(2px); }
-    75% { transform: translateY(-1px); }
-}
-
-@keyframes mc-jitter-3 {
-    0%, 100% { transform: translateY(0); }
-    33% { transform: translateY(-2px); }
-    66% { transform: translateY(2px); }
-}
-
-.mc-shake-1 {
-    animation: mc-jitter-1 0.16s steps(2, start) infinite;
-}
-
-.mc-shake-2 {
-    animation: mc-jitter-2 0.20s steps(2, start) infinite 0.04s;
-}
-
-.mc-shake-3 {
-    animation: mc-jitter-3 0.18s steps(2, start) infinite 0.08s;
-}
 
 .pixel-tile:hover {
     transform: scale(1.35);

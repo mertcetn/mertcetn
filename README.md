@@ -12,7 +12,7 @@
   </p>
 
   <p align="center">
-    <img src="https://raw.githubusercontent.com/mertcetn/mertcetn/output/xp-bar.gif" width="815" alt="Minecraft Experience Bar" /><br />
+    <img src="https://raw.githubusercontent.com/mertcetn/mertcetn/output/xp-bar.png" width="815" alt="Minecraft Experience Bar" /><br />
     <img src="https://raw.githubusercontent.com/mertcetn/mertcetn/output/hotbar.png" width="815" alt="Minecraft Hotbar" />
   </p>
 

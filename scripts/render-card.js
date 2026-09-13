@@ -199,10 +199,8 @@ async function generateCard() {
   const inactiveDays = data.inactiveDays !== undefined ? data.inactiveDays : 0;
   const foodPoints = Math.max(0, 20 - inactiveDays);
   const healthPoints = inactiveDays <= 20 ? 20 : Math.max(0, 20 - (inactiveDays - 20));
-  const isFoodShaking = (foodPoints === 0);
-  const isHealthShaking = (healthPoints <= 6);
 
-  console.log(`HUD Status: Inactivity=${inactiveDays}d, Food=${foodPoints / 2}/10 (Shake:${isFoodShaking}), Health=${healthPoints / 2}/10 (Shake:${isHealthShaking})`);
+  console.log(`HUD Status: Inactivity=${inactiveDays}d, Food=${foodPoints / 2}/10, Health=${healthPoints / 2}/10`);
 
   // Generate 10 Hearts (left-to-right: 0 to 9)
   const heartElements = [];
@@ -213,8 +211,7 @@ async function generateCard() {
     } else if (healthPoints === i * 2 + 1) {
       sprite = 'images/heart_half.png';
     }
-    const shakeClass = isHealthShaking ? ` mc-shake-${(i % 3) + 1}` : '';
-    heartElements.push(`                        <img src="${sprite}" class="mc-icon-sprite${shakeClass}" alt="Heart" />`);
+    heartElements.push(`                        <img src="${sprite}" class="mc-icon-sprite" alt="Heart" />`);
   }
 
   const heartsRegex = /<!-- HUD_HEARTS_START -->[\s\S]*?<!-- HUD_HEARTS_END -->/;
@@ -232,8 +229,7 @@ async function generateCard() {
     } else if (foodPoints === i * 2 + 1) {
       sprite = 'images/food_half.png';
     }
-    const shakeClass = isFoodShaking ? ` mc-shake-${(i % 3) + 1}` : '';
-    foodElements.push(`                        <img src="${sprite}" class="mc-icon-sprite${shakeClass}" alt="Food" />`);
+    foodElements.push(`                        <img src="${sprite}" class="mc-icon-sprite" alt="Food" />`);
   }
 
   const foodRegex = /<!-- HUD_FOOD_START -->[\s\S]*?<!-- HUD_FOOD_END -->/;
@@ -337,9 +333,8 @@ async function generateCard() {
       await captureElementGif(maxStreakEl, 'max-streak', outDir, 1);
     }
 
-    // 4. XP Bar & Status HUD (Transparent Background)
-    const xpBarFrames = (isFoodShaking || isHealthShaking) ? 24 : 1;
-    console.log(`Capturing XP Bar & Status HUD (${xpBarFrames} frame${xpBarFrames > 1 ? 's' : ''}, Transparent Background)...`);
+    // 4. XP Bar & Status HUD (Transparent Background, 1 frame static PNG)
+    console.log('Capturing XP Bar & Status HUD (Transparent Background)...');
     const xpBarEl = await page.$('#card-xp-bar');
     if (xpBarEl) {
       await page.evaluate(() => {
@@ -347,7 +342,7 @@ async function generateCard() {
         document.body.style.backgroundColor = 'transparent';
         document.body.style.backgroundImage = 'none';
       });
-      await captureElementGif(xpBarEl, 'xp-bar', outDir, xpBarFrames, true);
+      await captureElementGif(xpBarEl, 'xp-bar', outDir, 1, true);
       // Restore background
       await page.evaluate(() => {
         document.body.style.background = '';
