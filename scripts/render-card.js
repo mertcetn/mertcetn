@@ -195,6 +195,53 @@ async function generateCard() {
   const xpTextRegex = /--\/--/;
   html = html.replace(xpTextRegex, `${data.totalAllTime} / ${xpInfo.commitsForNextLevel}`);
 
+  // 6b. Hearts & Food Calculation based on Inactivity
+  const inactiveDays = data.inactiveDays !== undefined ? data.inactiveDays : 0;
+  const foodPoints = Math.max(0, 20 - inactiveDays);
+  const healthPoints = inactiveDays <= 20 ? 20 : Math.max(0, 20 - (inactiveDays - 20));
+  const isFoodShaking = (foodPoints === 0);
+  const isHealthShaking = (healthPoints <= 6);
+
+  console.log(`HUD Status: Inactivity=${inactiveDays}d, Food=${foodPoints / 2}/10 (Shake:${isFoodShaking}), Health=${healthPoints / 2}/10 (Shake:${isHealthShaking})`);
+
+  // Generate 10 Hearts (left-to-right: 0 to 9)
+  const heartElements = [];
+  for (let i = 0; i < 10; i++) {
+    let sprite = 'images/heart_container.png';
+    if (healthPoints >= (i + 1) * 2) {
+      sprite = 'images/heart_full.png';
+    } else if (healthPoints === i * 2 + 1) {
+      sprite = 'images/heart_half.png';
+    }
+    const shakeClass = isHealthShaking ? ` mc-shake-${(i % 3) + 1}` : '';
+    heartElements.push(`                        <img src="${sprite}" class="mc-icon-sprite${shakeClass}" alt="Heart" />`);
+  }
+
+  const heartsRegex = /<!-- HUD_HEARTS_START -->[\s\S]*?<!-- HUD_HEARTS_END -->/;
+  html = html.replace(
+    heartsRegex,
+    `<!-- HUD_HEARTS_START -->\n                    <div class="flex items-center gap-[3px]" id="hud-hearts">\n${heartElements.join('\n')}\n                    </div>\n                    <!-- HUD_HEARTS_END -->`
+  );
+
+  // Generate 10 Food icons (rendered right-to-left with flex-row-reverse: 0 to 9)
+  const foodElements = [];
+  for (let i = 0; i < 10; i++) {
+    let sprite = 'images/food_empty.png';
+    if (foodPoints >= (i + 1) * 2) {
+      sprite = 'images/food_full.png';
+    } else if (foodPoints === i * 2 + 1) {
+      sprite = 'images/food_half.png';
+    }
+    const shakeClass = isFoodShaking ? ` mc-shake-${(i % 3) + 1}` : '';
+    foodElements.push(`                        <img src="${sprite}" class="mc-icon-sprite${shakeClass}" alt="Food" />`);
+  }
+
+  const foodRegex = /<!-- HUD_FOOD_START -->[\s\S]*?<!-- HUD_FOOD_END -->/;
+  html = html.replace(
+    foodRegex,
+    `<!-- HUD_FOOD_START -->\n                    <div class="flex items-center gap-[3px] flex-row-reverse" id="hud-food">\n${foodElements.join('\n')}\n                    </div>\n                    <!-- HUD_FOOD_END -->`
+  );
+
   // 7. Dynamic Hotbar Slots (Top Languages)
   const ICON_MAP = {
     'TypeScript': 'typescript.svg',
@@ -290,8 +337,9 @@ async function generateCard() {
       await captureElementGif(maxStreakEl, 'max-streak', outDir, 1);
     }
 
-    // 4. XP Bar (Transparent Background)
-    console.log('Capturing XP Bar (Transparent Background)...');
+    // 4. XP Bar & Status HUD (Transparent Background)
+    const xpBarFrames = (isFoodShaking || isHealthShaking) ? 24 : 1;
+    console.log(`Capturing XP Bar & Status HUD (${xpBarFrames} frame${xpBarFrames > 1 ? 's' : ''}, Transparent Background)...`);
     const xpBarEl = await page.$('#card-xp-bar');
     if (xpBarEl) {
       await page.evaluate(() => {
@@ -299,7 +347,7 @@ async function generateCard() {
         document.body.style.backgroundColor = 'transparent';
         document.body.style.backgroundImage = 'none';
       });
-      await captureElementGif(xpBarEl, 'xp-bar', outDir, 1, true);
+      await captureElementGif(xpBarEl, 'xp-bar', outDir, xpBarFrames, true);
       // Restore background
       await page.evaluate(() => {
         document.body.style.background = '';

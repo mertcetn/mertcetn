@@ -569,10 +569,46 @@
 
         </div>
 
-        <!-- Experience Bar -->
+        <!-- Experience & Status HUD (Hearts, Level, Food, XP Bar) -->
         <div class="w-full flex flex-col items-center justify-center">
             <div class="w-full flex flex-col items-center" id="card-xp-bar">
-                <div class="text-[#80ff00] text-[15px] font-bold tracking-wider pixel-text-shadow">64</div>
+                <!-- Status Row: Hearts (left), Level (center), Food (right) -->
+                <div class="w-full flex justify-between items-end mb-1 px-1">
+                    <!-- HUD_HEARTS_START -->
+                    <div class="flex items-center gap-[3px]" id="hud-hearts">
+                        <img src="images/heart_full.png" class="mc-icon-sprite" alt="Heart" />
+                        <img src="images/heart_full.png" class="mc-icon-sprite" alt="Heart" />
+                        <img src="images/heart_full.png" class="mc-icon-sprite" alt="Heart" />
+                        <img src="images/heart_full.png" class="mc-icon-sprite" alt="Heart" />
+                        <img src="images/heart_full.png" class="mc-icon-sprite" alt="Heart" />
+                        <img src="images/heart_full.png" class="mc-icon-sprite" alt="Heart" />
+                        <img src="images/heart_full.png" class="mc-icon-sprite" alt="Heart" />
+                        <img src="images/heart_full.png" class="mc-icon-sprite" alt="Heart" />
+                        <img src="images/heart_full.png" class="mc-icon-sprite" alt="Heart" />
+                        <img src="images/heart_full.png" class="mc-icon-sprite" alt="Heart" />
+                    </div>
+                    <!-- HUD_HEARTS_END -->
+
+                    <!-- Centered Level -->
+                    <div class="text-[#80ff00] text-[16px] font-bold tracking-wider pixel-text-shadow leading-none mb-0.5">46</div>
+
+                    <!-- HUD_FOOD_START -->
+                    <div class="flex items-center gap-[3px] flex-row-reverse" id="hud-food">
+                        <img src="images/food_full.png" class="mc-icon-sprite" alt="Food" />
+                        <img src="images/food_full.png" class="mc-icon-sprite" alt="Food" />
+                        <img src="images/food_full.png" class="mc-icon-sprite" alt="Food" />
+                        <img src="images/food_full.png" class="mc-icon-sprite" alt="Food" />
+                        <img src="images/food_full.png" class="mc-icon-sprite" alt="Food" />
+                        <img src="images/food_full.png" class="mc-icon-sprite" alt="Food" />
+                        <img src="images/food_full.png" class="mc-icon-sprite" alt="Food" />
+                        <img src="images/food_full.png" class="mc-icon-sprite" alt="Food" />
+                        <img src="images/food_full.png" class="mc-icon-sprite" alt="Food" />
+                        <img src="images/food_full.png" class="mc-icon-sprite" alt="Food" />
+                    </div>
+                    <!-- HUD_FOOD_END -->
+                </div>
+
+                <!-- Green Progress Bar -->
                 <div class="w-full h-[25px] relative">
                     <div class="absolute inset-0 mc-exp-bar-bg"></div>
                     <div class="absolute inset-0 mc-exp-bar-progress" style="clip-path: inset(0 22% 0 0);"></div>

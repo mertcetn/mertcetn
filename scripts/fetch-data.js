@@ -237,6 +237,20 @@ async function fetchUserData() {
     }
   }
 
+  // Calculate Inactive Days (consecutive days without commit, looking back from today)
+  let inactiveDays = 0;
+  for (let i = sortedDays.length - 1; i >= 0; i--) {
+    const day = sortedDays[i];
+    if (day.date <= todayStr) {
+      if (day.count > 0) {
+        break;
+      } else {
+        inactiveDays++;
+      }
+    }
+  }
+  console.log(`Calculated Inactivity: ${inactiveDays} days without commits`);
+
   // Fetch languages across all user repositories
   console.log('Fetching top repository languages...');
   const languages = await fetchUserLanguages();
@@ -249,7 +263,8 @@ async function fetchUserData() {
     maxStreak,
     gridWeeks,
     maxCountInGrid,
-    languages
+    languages,
+    inactiveDays
   };
 }
 
