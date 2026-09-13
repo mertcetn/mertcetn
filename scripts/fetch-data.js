@@ -249,7 +249,34 @@ async function fetchUserData() {
       }
     }
   }
-  console.log(`Calculated Inactivity: ${inactiveDays} days without commits`);
+  // Calculate Minecraft Health & Hunger Simulation
+  // Rules:
+  // - Maximum: 20 food points (10 food shanks), 20 health points (10 hearts).
+  // - Commit atılan gün (count > 0): tokluk anında fullenir (food = 20).
+  // - Tokluk 0 olmadığı sürece her gün yarım kalp (+1 health point, max 20) yenilenir.
+  // - Commit atılmayan gün (count === 0):
+  //     - Eğer tokluk > 0 ise: yarım yiyecek (-1 food point) eksilir, tokluk bitene kadar can yenilenmeye devam eder.
+  //     - Eğer tokluk 0 ise: açlıktan yarım kalp (-1 health point, min 0) can gider.
+  let foodPoints = 20;
+  let healthPoints = 20;
+
+  for (const day of sortedDays) {
+    if (day.date > todayStr) continue;
+
+    if (day.count > 0) {
+      foodPoints = 20;
+      healthPoints = Math.min(20, healthPoints + 1);
+    } else {
+      if (foodPoints > 0) {
+        foodPoints = Math.max(0, foodPoints - 1);
+        healthPoints = Math.min(20, healthPoints + 1);
+      } else {
+        healthPoints = Math.max(0, healthPoints - 1);
+      }
+    }
+  }
+
+  console.log(`Minecraft HUD Simulation: Food=${foodPoints}/20 (${foodPoints / 2}/10), Health=${healthPoints}/20 (${healthPoints / 2}/10)`);
 
   // Fetch languages across all user repositories
   console.log('Fetching top repository languages...');
@@ -264,7 +291,9 @@ async function fetchUserData() {
     gridWeeks,
     maxCountInGrid,
     languages,
-    inactiveDays
+    inactiveDays,
+    foodPoints,
+    healthPoints
   };
 }
 

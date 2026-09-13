@@ -195,10 +195,10 @@ async function generateCard() {
   const xpTextRegex = /--\/--/;
   html = html.replace(xpTextRegex, `${data.totalAllTime} / ${xpInfo.commitsForNextLevel}`);
 
-  // 6b. Hearts & Food Calculation based on Inactivity
+  // 6b. Hearts & Food Points
   const inactiveDays = data.inactiveDays !== undefined ? data.inactiveDays : 0;
-  const foodPoints = Math.max(0, 20 - inactiveDays);
-  const healthPoints = inactiveDays <= 20 ? 20 : Math.max(0, 20 - (inactiveDays - 20));
+  const foodPoints = data.foodPoints !== undefined ? data.foodPoints : Math.max(0, 20 - inactiveDays);
+  const healthPoints = data.healthPoints !== undefined ? data.healthPoints : (inactiveDays <= 20 ? 20 : Math.max(0, 20 - (inactiveDays - 20)));
 
   console.log(`HUD Status: Inactivity=${inactiveDays}d, Food=${foodPoints / 2}/10, Health=${healthPoints / 2}/10`);
 
