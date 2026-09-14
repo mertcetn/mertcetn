@@ -19,8 +19,4 @@
 
   <!-- Invisible Komarev profile view counter incrementer -->
   <img src="https://komarev.com/ghpvc/?username=mertcetne&style=flat-square" width="0" height="0" alt="" style="display:none;" />
-
-  <br />
-
-
 </div>
