@@ -28,8 +28,12 @@
 
 body {
     font-family: 'Press Start 2P', monospace;
-    background-color: #ffffff;
-    background-image: none;
+    background-color: #1a1a1e;
+    background-image: url('images/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: #ffffff;
     min-height: 100vh;
 }
