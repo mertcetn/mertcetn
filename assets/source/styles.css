@@ -109,6 +109,11 @@ body {
     display: inline-block;
 }
 
+#hud-hearts,
+#hud-food {
+    margin-bottom: 7px;
+}
+
 .mc-level-text {
     font-family: 'Press Start 2P', monospace;
     color: #80ff00;

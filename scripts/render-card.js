@@ -217,7 +217,7 @@ async function generateCard() {
   const heartsRegex = /<!-- HUD_HEARTS_START -->[\s\S]*?<!-- HUD_HEARTS_END -->/;
   html = html.replace(
     heartsRegex,
-    `<!-- HUD_HEARTS_START -->\n                    <div class="flex items-center gap-[3px]" id="hud-hearts">\n${heartElements.join('\n')}\n                    </div>\n                    <!-- HUD_HEARTS_END -->`
+    `<!-- HUD_HEARTS_START -->\n                    <div class="flex items-center gap-[3px] mb-[7px]" id="hud-hearts">\n${heartElements.join('\n')}\n                    </div>\n                    <!-- HUD_HEARTS_END -->`
   );
 
   // Generate 10 Food icons (rendered right-to-left with flex-row-reverse: 0 to 9)
@@ -235,7 +235,7 @@ async function generateCard() {
   const foodRegex = /<!-- HUD_FOOD_START -->[\s\S]*?<!-- HUD_FOOD_END -->/;
   html = html.replace(
     foodRegex,
-    `<!-- HUD_FOOD_START -->\n                    <div class="flex items-center gap-[3px] flex-row-reverse" id="hud-food">\n${foodElements.join('\n')}\n                    </div>\n                    <!-- HUD_FOOD_END -->`
+    `<!-- HUD_FOOD_START -->\n                    <div class="flex items-center gap-[3px] flex-row-reverse mb-[7px]" id="hud-food">\n${foodElements.join('\n')}\n                    </div>\n                    <!-- HUD_FOOD_END -->`
   );
 
   // 7. Dynamic Hotbar Slots (Top Languages)
