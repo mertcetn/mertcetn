@@ -364,17 +364,4 @@ body {
     to {
         background-position: 0 -512px;
     }
-}
-
-/* Minecraft In-Game Chat Box */
-.mc-chat-box {
-    background-color: rgba(0, 0, 0, 0.5);
-    width: 100%;
-}
-
-.mc-chat-text {
-    font-family: 'Press Start 2P', monospace;
-    color: #ffff55;
-    text-shadow: 2px 2px 0px #3f3f15;
-    letter-spacing: 0.5px;
-}
+}

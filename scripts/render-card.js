@@ -336,36 +336,6 @@ async function generateCard() {
     );
   }
 
-  // 8. Dynamic In-Game Chat (Live Komarev Profile Views)
-  console.log('Fetching live Komarev profile views...');
-  let visitCount = 15;
-  try {
-    const fetchKomarev = async (username) => {
-      const res = await fetch(`https://komarev.com/ghpvc/?username=${encodeURIComponent(username)}&style=flat-square&_t=${Date.now()}`, {
-        headers: { 'User-Agent': 'Mozilla/5.0' }
-      });
-      if (!res.ok) return 0;
-      const text = await res.text();
-      const matches = [...text.matchAll(/<text[^>]*>([^<]+)<\/text>/g)].map(m => m[1].trim());
-      const raw = matches.length > 0 ? matches[matches.length - 1] : '0';
-      return parseInt(raw, 10) || 0;
-    };
-    const count = await fetchKomarev('mertcetn');
-    if (count > 0) {
-      visitCount = count;
-    }
-  } catch (err) {
-    console.warn('Could not fetch Komarev count, using fallback:', err.message);
-  }
-  console.log(`Live Profile Views: ${visitCount}`);
-
-  const chatMessage = `${visitCount.toLocaleString('en-US')} ${visitCount === 1 ? 'user has' : 'users have'} joined the profile`;
-  const chatRegex = /<!-- CHAT_MESSAGE_START -->[\s\S]*?<!-- CHAT_MESSAGE_END -->/;
-  html = html.replace(
-    chatRegex,
-    `<!-- CHAT_MESSAGE_START -->\n            <span class="mc-chat-text text-[12px] sm:text-[13px] leading-relaxed">\n                ${chatMessage}\n            </span>\n            <!-- CHAT_MESSAGE_END -->`
-  );
-
   // Save preview HTML
   const previewHtmlPath = path.join(__dirname, '../assets/source/card_preview.html');
   fs.writeFileSync(previewHtmlPath, html, 'utf8');
