@@ -13,8 +13,12 @@
 
   <p align="center">
     <img src="https://raw.githubusercontent.com/mertcetn/mertcetn/output/xp-bar.png" width="815" alt="Minecraft Experience Bar" /><br />
-    <img src="https://raw.githubusercontent.com/mertcetn/mertcetn/output/hotbar.png" width="815" alt="Minecraft Hotbar" />
+    <img src="https://raw.githubusercontent.com/mertcetn/mertcetn/output/hotbar.png" width="815" alt="Minecraft Hotbar" /><br />
+    <img src="https://minecraft-profile-views.mertcetnportfolio.workers.dev/chat.svg" width="815" alt="Minecraft Chat" />
   </p>
+
+  <!-- Invisible Komarev profile view counter incrementer -->
+  <img src="https://komarev.com/ghpvc/?username=mertcetne&style=flat-square" width="0" height="0" alt="" style="display:none;" />
 
   <br />
 

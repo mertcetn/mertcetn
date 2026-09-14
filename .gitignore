@@ -3,3 +3,5 @@ node_modules/
 temp/
 assets/source/card_preview.html
 *.log
+.wrangler/
+AGENTS.md

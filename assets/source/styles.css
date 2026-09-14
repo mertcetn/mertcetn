@@ -28,11 +28,8 @@
 
 body {
     font-family: 'Press Start 2P', monospace;
-    background-color: #121214;
-    background-image:
-        radial-gradient(rgba(0, 0, 0, 0.7) 30%, rgba(0, 0, 0, 0.95) 90%),
-        repeating-linear-gradient(0deg, #18191c, #18191c 32px, #141517 32px, #141517 64px),
-        repeating-linear-gradient(90deg, #18191c, #18191c 32px, #141517 32px, #141517 64px);
+    background-color: #ffffff;
+    background-image: none;
     color: #ffffff;
     min-height: 100vh;
 }
@@ -75,7 +72,7 @@ body {
     border-right: 4px solid #111114;
     border-bottom: 4px solid #111114;
     outline: 4px solid #000000;
-    box-shadow: 0 12px 0 rgba(0, 0, 0, 0.6), inset -2px -2px 0 0 #141418, inset 2px 2px 0 0 #36363d;
+    box-shadow: inset -2px -2px 0 0 #141418, inset 2px 2px 0 0 #36363d;
 }
 
 .mc-slot {
@@ -349,3 +346,17 @@ body {
         background-position: 0 -512px;
     }
 }
+
+/* Minecraft In-Game Chat Box */
+.mc-chat-box {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+}
+
+.mc-chat-text {
+    font-family: 'Press Start 2P', monospace;
+    color: #ffff55;
+    text-shadow: 2px 2px 0px #3f3f15;
+    letter-spacing: 0.5px;
+}
+
