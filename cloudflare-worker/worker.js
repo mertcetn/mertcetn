@@ -13,7 +13,7 @@ export default {
     const url = new URL(request.url);
 
     // Query parameters with defaults
-    const username = url.searchParams.get('username') || 'mertcetne';
+    const username = url.searchParams.get('username') || 'mertcetn';
     const width = parseInt(url.searchParams.get('width') || '815', 10);
     const height = parseInt(url.searchParams.get('height') || '38', 10);
 

@@ -7,6 +7,5 @@
 
 <!-- Invisible Komarev profile view counter incrementers -->
 <img src="https://komarev.com/ghpvc/?username=mertcetn&style=flat-square" width="0" height="0" alt="" style="display:none;" />
-<img src="https://komarev.com/ghpvc/?username=mertcetne&style=flat-square" width="0" height="0" alt="" style="display:none;" />
 
 </div>

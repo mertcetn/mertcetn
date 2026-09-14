@@ -350,11 +350,9 @@ async function generateCard() {
       const raw = matches.length > 0 ? matches[matches.length - 1] : '0';
       return parseInt(raw, 10) || 0;
     };
-    const c1 = await fetchKomarev('mertcetne');
-    const c2 = await fetchKomarev('mertcetn');
-    const best = Math.max(c1, c2);
-    if (best > 0) {
-      visitCount = best;
+    const count = await fetchKomarev('mertcetn');
+    if (count > 0) {
+      visitCount = count;
     }
   } catch (err) {
     console.warn('Could not fetch Komarev count, using fallback:', err.message);
