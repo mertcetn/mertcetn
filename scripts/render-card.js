@@ -39,14 +39,14 @@ function calculateMinecraftCurveLevel(totalCommits) {
   };
 }
 
-async function captureElementGif(element, filenameBase, outDir, frameCount = 32, transparent = false) {
+async function captureElementGif(element, filenameBase, outDir, frameCount = 25, transparent = false) {
   const frameBuffers = [];
 
   for (let f = 0; f < frameCount; f++) {
     const buffer = await element.screenshot({ type: 'png', omitBackground: transparent });
     frameBuffers.push(buffer);
     if (frameCount > 1 && f < frameCount - 1) {
-      await new Promise(r => setTimeout(r, 50));
+      await new Promise(r => setTimeout(r, 100));
     }
   }
 
@@ -66,7 +66,7 @@ async function captureElementGif(element, filenameBase, outDir, frameCount = 32,
       const transparentIndex = palette.findIndex(color => color[3] === 0);
       const options = {
         palette,
-        delay: 50,
+        delay: 100,
         transparent: transparentIndex !== -1,
         transparentIndex: transparentIndex !== -1 ? transparentIndex : 0
       };
@@ -74,7 +74,7 @@ async function captureElementGif(element, filenameBase, outDir, frameCount = 32,
     } else {
       const palette = quantize(rgbaData, 256);
       const index = applyPalette(rgbaData, palette);
-      encoder.writeFrame(index, width, height, { palette, delay: 50 });
+      encoder.writeFrame(index, width, height, { palette, delay: 100 });
     }
   }
   encoder.finish();
@@ -83,6 +83,60 @@ async function captureElementGif(element, filenameBase, outDir, frameCount = 32,
   const gifPath = path.join(outDir, `${filenameBase}.gif`);
   fs.writeFileSync(gifPath, gifBuffer);
 
+  console.log(`  -> ${filenameBase}.gif (${(gifBuffer.length / 1024).toFixed(1)} KB) & ${filenameBase}.png (${(frameBuffers[0].length / 1024).toFixed(1)} KB)`);
+}
+
+async function captureCardWithFrame(page, clip, filenameBase, outDir, frameCount = 25) {
+  const frameBuffers = [];
+  for (let f = 0; f < frameCount; f++) {
+    const buf = await page.screenshot({ type: 'png', clip });
+    frameBuffers.push(buf);
+    if (f < frameCount - 1) {
+      await new Promise(r => setTimeout(r, 100));
+    }
+  }
+
+  // Save static PNG (1st frame)
+  const pngPath = path.join(outDir, `${filenameBase}.png`);
+  fs.writeFileSync(pngPath, frameBuffers[0]);
+
+  // Parse PNGs
+  const pngs = frameBuffers.map(b => PNG.sync.read(b));
+  const { width, height } = pngs[0];
+  const f0 = pngs[0].data;
+
+  // Detect animated pixels (soul fire & pickaxe glint)
+  const isAnimated = new Uint8Array(width * height);
+  for (let f = 1; f < frameCount; f++) {
+    const fd = pngs[f].data;
+    for (let p = 0; p < width * height; p++) {
+      const i = p * 4;
+      if (Math.abs(fd[i] - f0[i]) > 5 || Math.abs(fd[i + 1] - f0[i + 1]) > 5 || Math.abs(fd[i + 2] - f0[i + 2]) > 5) {
+        isAnimated[p] = 1;
+      }
+    }
+  }
+
+  // Encode GIF with locked static palette indices (100% zero background jitter!)
+  const encoder = GIFEncoder();
+  const globalPalette = quantize(f0, 256);
+  const f0Indices = applyPalette(f0, globalPalette);
+  encoder.writeFrame(f0Indices, width, height, { palette: globalPalette, delay: 100 });
+
+  for (let f = 1; f < frameCount; f++) {
+    const indices = applyPalette(pngs[f].data, globalPalette);
+    for (let p = 0; p < width * height; p++) {
+      if (!isAnimated[p]) {
+        indices[p] = f0Indices[p];
+      }
+    }
+    encoder.writeFrame(indices, width, height, { palette: globalPalette, delay: 100 });
+  }
+  encoder.finish();
+
+  const gifBuffer = Buffer.from(encoder.bytes());
+  const gifPath = path.join(outDir, `${filenameBase}.gif`);
+  fs.writeFileSync(gifPath, gifBuffer);
   console.log(`  -> ${filenameBase}.gif (${(gifBuffer.length / 1024).toFixed(1)} KB) & ${filenameBase}.png (${(frameBuffers[0].length / 1024).toFixed(1)} KB)`);
 }
 
@@ -282,6 +336,38 @@ async function generateCard() {
     );
   }
 
+  // 8. Dynamic In-Game Chat (Live Komarev Profile Views)
+  console.log('Fetching live Komarev profile views...');
+  let visitCount = 15;
+  try {
+    const fetchKomarev = async (username) => {
+      const res = await fetch(`https://komarev.com/ghpvc/?username=${encodeURIComponent(username)}&style=flat-square&_t=${Date.now()}`, {
+        headers: { 'User-Agent': 'Mozilla/5.0' }
+      });
+      if (!res.ok) return 0;
+      const text = await res.text();
+      const matches = [...text.matchAll(/<text[^>]*>([^<]+)<\/text>/g)].map(m => m[1].trim());
+      const raw = matches.length > 0 ? matches[matches.length - 1] : '0';
+      return parseInt(raw, 10) || 0;
+    };
+    const c1 = await fetchKomarev('mertcetne');
+    const c2 = await fetchKomarev('mertcetn');
+    const best = Math.max(c1, c2);
+    if (best > 0) {
+      visitCount = best;
+    }
+  } catch (err) {
+    console.warn('Could not fetch Komarev count, using fallback:', err.message);
+  }
+  console.log(`Live Profile Views: ${visitCount}`);
+
+  const chatMessage = `${visitCount.toLocaleString('en-US')} ${visitCount === 1 ? 'user has' : 'users have'} joined the profile`;
+  const chatRegex = /<!-- CHAT_MESSAGE_START -->[\s\S]*?<!-- CHAT_MESSAGE_END -->/;
+  html = html.replace(
+    chatRegex,
+    `<!-- CHAT_MESSAGE_START -->\n            <span class="mc-chat-text text-[12px] sm:text-[13px] leading-relaxed">\n                ${chatMessage}\n            </span>\n            <!-- CHAT_MESSAGE_END -->`
+  );
+
   // Save preview HTML
   const previewHtmlPath = path.join(__dirname, '../assets/source/card_preview.html');
   fs.writeFileSync(previewHtmlPath, html, 'utf8');
@@ -313,17 +399,17 @@ async function generateCard() {
     }
 
     // 1. Crafting Log (Animated Soul Fire)
-    console.log('Capturing Crafting Log (32 frames)...');
+    console.log('Capturing Crafting Log (25 frames)...');
     const craftingLogEl = await page.$('#card-crafting-log');
     if (craftingLogEl) {
-      await captureElementGif(craftingLogEl, 'crafting-log', outDir, 32);
+      await captureElementGif(craftingLogEl, 'crafting-log', outDir, 25);
     }
 
     // 2. Total Commits (Animated Netherite Pickaxe Glint)
-    console.log('Capturing Total Commits (32 frames)...');
+    console.log('Capturing Total Commits (25 frames)...');
     const totalCommitsEl = await page.$('#card-total-commits');
     if (totalCommitsEl) {
-      await captureElementGif(totalCommitsEl, 'total-commits', outDir, 32);
+      await captureElementGif(totalCommitsEl, 'total-commits', outDir, 25);
     }
 
     // 3. Max Streak (Diamond icon)
@@ -369,11 +455,19 @@ async function generateCard() {
       });
     }
 
-    // 6. Complete All-In-One Profile Card
-    console.log('Capturing Complete Card (32 frames)...');
+    // 6. Complete All-In-One Profile Card with Wallpaper Frame & Zero Jitter
+    console.log('Capturing Complete Card with Wallpaper Frame & Zero Jitter (25 frames, 10 FPS)...');
     const boardEl = await page.$('#card-capture');
     if (boardEl) {
-      await captureElementGif(boardEl, 'profile-card', outDir, 32);
+      const box = await boardEl.boundingBox();
+      const pad = 40;
+      const clip = {
+        x: Math.max(0, box.x - pad),
+        y: Math.max(0, box.y - pad),
+        width: box.width + pad * 2,
+        height: box.height + pad * 2
+      };
+      await captureCardWithFrame(page, clip, 'profile-card', outDir, 25);
     }
 
     console.log('--- All Modular GIF/PNG Assets Generated Successfully! ---');

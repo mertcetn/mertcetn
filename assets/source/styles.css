@@ -118,15 +118,17 @@ body {
     font-family: 'Press Start 2P', monospace;
     color: #80ff00;
     text-shadow:
-        -2px -2px 0 #000,
-         2px -2px 0 #000,
-        -2px  2px 0 #000,
-         2px  2px 0 #000,
-         0px -2px 0 #000,
-         0px  2px 0 #000,
-        -2px  0px 0 #000,
-         2px  0px 0 #000;
+        -3px  0px 0 #000000,  3px  0px 0 #000000,  0px -3px 0 #000000,  0px  3px 0 #000000,
+        -3px -1px 0 #000000, -3px  1px 0 #000000,  3px -1px 0 #000000,  3px  1px 0 #000000,
+        -1px -3px 0 #000000,  1px -3px 0 #000000, -1px  3px 0 #000000,  1px  3px 0 #000000,
+        -2px -2px 0 #000000,  2px -2px 0 #000000, -2px  2px 0 #000000,  2px  2px 0 #000000,
+        -2px  0px 0 #000000,  2px  0px 0 #000000,  0px -2px 0 #000000,  0px  2px 0 #000000,
+        -2px -1px 0 #000000, -2px  1px 0 #000000,  2px -1px 0 #000000,  2px  1px 0 #000000,
+        -1px -2px 0 #000000,  1px -2px 0 #000000, -1px  2px 0 #000000,  1px  2px 0 #000000,
+        -1px  0px 0 #000000,  1px  0px 0 #000000,  0px -1px 0 #000000,  0px  1px 0 #000000,
+        -1px -1px 0 #000000,  1px -1px 0 #000000, -1px  1px 0 #000000,  1px  1px 0 #000000;
 }
+
 
 
 .pixel-tile:hover {
@@ -191,8 +193,14 @@ body {
 }
 
 @keyframes pulse-diamond {
-    0% { filter: brightness(1); }
-    100% { filter: brightness(1.25); box-shadow: 0 0 12px #55ffff; }
+    0% {
+        filter: brightness(1);
+    }
+
+    100% {
+        filter: brightness(1.25);
+        box-shadow: 0 0 12px #55ffff;
+    }
 }
 
 #mc-tooltip {
@@ -319,13 +327,14 @@ body {
     mask-repeat: no-repeat;
     -webkit-mask-position: center;
     mask-position: center;
-    animation: mc-glint 3s linear infinite;
+    animation: mc-glint 4s linear infinite;
 }
 
 @keyframes mc-glint {
     0% {
         background-position: 0 0;
     }
+
     100% {
         background-position: -40px -40px;
     }
@@ -342,7 +351,7 @@ body {
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
-    animation: mc-soul-fire-anim 1.6s steps(32) infinite;
+    animation: mc-soul-fire-anim 2.4s steps(32) infinite;
     filter: drop-shadow(0 0 4px rgba(77, 227, 227, 0.6));
     flex-shrink: 0;
 }
@@ -351,6 +360,7 @@ body {
     from {
         background-position: 0 0;
     }
+
     to {
         background-position: 0 -512px;
     }
@@ -368,4 +378,3 @@ body {
     text-shadow: 2px 2px 0px #3f3f15;
     letter-spacing: 0.5px;
 }
-
