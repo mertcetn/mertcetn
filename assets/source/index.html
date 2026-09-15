@@ -84,7 +84,7 @@
             </div>
 
             <!-- Graph Container -->
-            <div class="mc-slot p-3 overflow-x-auto bg-[#18181b] flex gap-3">
+            <div class="mc-slot p-3 overflow-x-auto flex gap-3">
                 <!-- Weekday Labels -->
                 <div
                     class="flex flex-col justify-between text-[9px] font-bold text-[#777777] py-1 select-none pr-1 border-r border-[#333338]">
@@ -485,7 +485,7 @@
 
                 <!-- Streak Badge -->
                 <div
-                    class="flex items-center gap-1.5 bg-[#18181b] px-3 py-1.5 border-2 border-[#38383e] shadow-inner text-[10px] font-bold text-[#e2e8f0]">
+                    class="flex items-center gap-1.5 bg-[#18181b]/70 backdrop-blur-sm px-3 py-1.5 border-2 border-[#38383e]/80 shadow-inner text-[10px] font-bold text-[#e2e8f0]">
                     <span class="mc-soul-fire"></span>
                     <span>CURRENT STREAK: <strong class="text-[#55ffff]">28 DAYS</strong></span>
                 </div>
@@ -497,9 +497,9 @@
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
 
-            <div class="mc-panel p-4 bg-[#232327]" id="card-total-commits">
+            <div class="mc-panel p-4" id="card-total-commits">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 mc-slot bg-[#141417] flex items-center justify-center shrink-0">
+                    <div class="w-9 h-9 mc-slot flex items-center justify-center shrink-0">
                         <div class="enchanted-item-wrap">
                             <img src="images/netherite_pickaxe.png" class="enchanted-item-base" alt="Netherite Pickaxe">
                             <div class="enchanted-item-glint"></div>
@@ -513,9 +513,9 @@
                 </div>
             </div>
 
-            <div class="mc-panel p-4 bg-[#232327]" id="card-max-streak">
+            <div class="mc-panel p-4" id="card-max-streak">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 mc-slot bg-[#141417] flex items-center justify-center shrink-0">
+                    <div class="w-9 h-9 mc-slot flex items-center justify-center shrink-0">
                         <img src="images/diamond.png" class="w-6 h-6 object-contain select-none"
                             style="image-rendering: pixelated; filter: drop-shadow(0 0 4px rgba(77, 227, 227, 0.5));"
                             alt="Diamond">
@@ -638,7 +638,7 @@
 
         <!-- Authentic Minecraft Hotbar (9 Slots: Top Languages) -->
         <div class="w-full flex flex-col items-center justify-center mt-4" id="card-hotbar">
-            <div class="w-full mc-panel p-2.5 grid grid-cols-9 gap-2.5 bg-[#232327]">
+            <div class="w-full mc-panel p-2.5 grid grid-cols-9 gap-2.5">
                 <!-- HOTBAR_SLOTS_START -->
                 <!-- Slot 1: TypeScript -->
                 <div class="mc-slot aspect-square flex items-center justify-center relative group cursor-pointer hover:bg-[#202026] transition-colors"
