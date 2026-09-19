@@ -47,15 +47,17 @@ jobs:
           
           # 1. Back up generated assets to temp directory outside git
           mkdir -p /tmp/minecraft-assets
-          cp assets/*.gif assets/*.png /tmp/minecraft-assets/
+          cp assets/source/generated/*.gif assets/source/generated/*.png /tmp/minecraft-assets/
 
           # 2. Create orphan output branch (clean history)
           git checkout --orphan output
           git rm -rf .
           
-          # 3. Restore generated assets into output branch root
+          # 3. Restore generated assets into output branch
+          mkdir -p assets/source/generated
+          cp /tmp/minecraft-assets/* assets/source/generated/
           cp /tmp/minecraft-assets/* .
-          git add *.gif *.png
+          git add *.gif *.png assets/source/generated/*.gif assets/source/generated/*.png
           
           if git diff --staged --quiet; then
             echo "No changes detected in assets."

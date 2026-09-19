@@ -361,7 +361,7 @@ async function generateCard() {
     await page.evaluateHandle('document.fonts.ready');
     await new Promise(r => setTimeout(r, 300));
 
-    const outDir = path.join(__dirname, '../assets');
+    const outDir = path.join(__dirname, '../assets/source/generated');
     if (!fs.existsSync(outDir)) {
       fs.mkdirSync(outDir, { recursive: true });
     }
