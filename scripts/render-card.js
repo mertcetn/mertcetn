@@ -366,6 +366,7 @@ async function generateCard() {
       fs.mkdirSync(outDir, { recursive: true });
     }
 
+    /*
     // 1. Crafting Log (Animated Soul Fire)
     console.log('Capturing Crafting Log (25 frames)...');
     const craftingLogEl = await page.$('#card-crafting-log');
@@ -422,6 +423,7 @@ async function generateCard() {
         document.body.style.backgroundImage = '';
       });
     }
+    */
 
     // 6. Complete All-In-One Profile Card with Wallpaper Frame & Zero Jitter
     console.log('Capturing Complete Card with Wallpaper Frame & Zero Jitter (25 frames, 10 FPS)...');

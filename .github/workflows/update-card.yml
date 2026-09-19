@@ -57,7 +57,7 @@ jobs:
           mkdir -p assets/source/generated
           cp /tmp/minecraft-assets/* assets/source/generated/
           cp /tmp/minecraft-assets/* .
-          git add *.gif *.png assets/source/generated/*.gif assets/source/generated/*.png
+          git add -f *.gif *.png assets/source/generated/*.gif assets/source/generated/*.png
           
           if git diff --staged --quiet; then
             echo "No changes detected in assets."
