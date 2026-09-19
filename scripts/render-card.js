@@ -247,7 +247,7 @@ async function generateCard() {
   html = html.replace(xpFillRegex, `$1${clipRight}$2`);
 
   const xpTextRegex = /--\/--/;
-  html = html.replace(xpTextRegex, `${data.totalAllTime} / ${xpInfo.commitsForNextLevel}`);
+  html = html.replace(xpTextRegex, `Total commits: ${data.totalAllTime} / ${xpInfo.commitsForNextLevel}`);
 
   // 6b. Hearts & Food Points
   const inactiveDays = data.inactiveDays !== undefined ? data.inactiveDays : 0;
