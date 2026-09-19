@@ -5,3 +5,4 @@ assets/source/card_preview.html
 *.log
 .wrangler/
 AGENTS.md
+assets/source/generated/
