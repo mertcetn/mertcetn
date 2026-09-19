@@ -17,51 +17,11 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Generate Minecraft Profile Card
+        uses: mertcetn/minecraft-github-profile@main
         with:
-          fetch-depth: 0
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Generate Minecraft Assets
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
-          GH_USERNAME: 'mertcetn'
-          START_YEAR: '2020'
-        run: node scripts/render-card.js
-
-      - name: Deploy assets to output branch
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # 1. Back up generated assets to temp directory outside git
-          mkdir -p /tmp/minecraft-assets
-          cp assets/source/generated/*.gif assets/source/generated/*.png /tmp/minecraft-assets/
-
-          # 2. Create orphan output branch (clean history)
-          git checkout --orphan output
-          git rm -rf .
-          
-          # 3. Restore generated assets into output branch
-          mkdir -p assets/source/generated
-          cp /tmp/minecraft-assets/* assets/source/generated/
-          cp /tmp/minecraft-assets/* .
-          git add -f *.gif *.png assets/source/generated/*.gif assets/source/generated/*.png
-          
-          if git diff --staged --quiet; then
-            echo "No changes detected in assets."
-          else
-            git commit -m "chore(assets): update minecraft contribution assets [skip ci]"
-            git push origin output --force
-          fi
+          github_token: ${{ secrets.GITHUB_TOKEN }}

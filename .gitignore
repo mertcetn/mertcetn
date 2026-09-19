@@ -1,9 +1,4 @@
-node_modules/
 .env
 temp/
 *.log
-.wrangler/
 AGENTS.md
-assets/source/generated/
-assets/source/source.html
-assets/source/card_preview.html
