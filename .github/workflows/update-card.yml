@@ -24,4 +24,4 @@ jobs:
       - name: Generate Minecraft Profile Card
         uses: mertcetn/minecraft-github-profile@main
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT_TOKEN }}
